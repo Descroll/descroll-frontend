@@ -12,6 +12,7 @@
 
   width: 100%;
   max-width: 360px;
+  min-height: 740px;
   background: white;
   padding: 40px 24px 32px;
   display: flex;

@@ -3,16 +3,20 @@ import { Link } from "react-router-dom";
 
 function CreatePost() {
     const username = "my username";
+//temp for post button being disabled if the fields are empty
 //temp for being able to add an image to a new post creation
-    const [selectedImage, setSelectedImage] = useState(null);
+    const [text, setText] = useState('');
+    const [file, setFile] = useState(null);
+    const [previewUrl, setPreviewUrl] = useState("");
 
-    const handleImageChange = (event) => {
-        const file = event.target.files?.[0];
-        if (file){
-            const imageUrl = URL.createObjectURL(file);
-            setSelectedImage(imageUrl);
+    const handleFileChange = (e) => {
+        const selectedFile = e.target.files[0]
+        if (selectedFile){setFile(selectedFile);
+            setPreviewUrl(URL.createObjectURL(selectedFile));
         }
     };
+
+    const isPostEnabled = text.trim() !== "" || file !== null;
 
 
     return (
@@ -22,7 +26,7 @@ function CreatePost() {
                     <Link to="/profile" className="back-btn">back</Link>
 
                     <h2>new post</h2>
-                    <button className="post-btn">post</button>
+                    <button className="post-btn" disabled={!isPostEnabled}>post</button>
 
                 </div>
 
@@ -35,24 +39,30 @@ function CreatePost() {
                     </div>
                     
                 
-                    <textarea className="post-textarea" placeholder="what are you sharing today?"></textarea>
+                    <textarea className="post-textarea" placeholder="what are you sharing today?" value={text} onChange={(e) => setText(e.target.value)}></textarea>
 
                     <div className="upload-section">
 
                         <label className="upload-box">
-                            {selectedImage ? (
-                                <img src={selectedImage} alt="preview" className="upload-preview"/>
-                            ):(
+                            {file ? (
+                                file.type.startsWith("video/") ? (
+                                    <video className="upload-preview" controls>
+                                        <source src={previewUrl} type={file.type}/> not supported video tag
+                                    </video>
+                                    ) : (
+                                    <img src={previewUrl} alt="preview" className="upload-preview"/>
+
+                                )
+                                
+                                ) : (
                                 <div className="upload-placeholder">
                                     <span className="upload-icon">+</span>
-                                    <span>add a photo</span>
+                                    <span>add a photo or video</span>
                                 </div>
                             )}
 
-                            <input type="file" accept="image/*" onChange={handleImageChange} hidden/>
+                            <input type="file" accept="image/*, video/*" onChange={handleFileChange} hidden/>
                         </label>
-
-                
 
                     </div>
                 </div>  

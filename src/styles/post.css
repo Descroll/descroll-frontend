@@ -11,6 +11,7 @@
 
     width: 100%;
     max-width: 390px;
+    min-height: 760px;
     background: white;
     border-radius: 32px;
     overflow: hidden;
@@ -27,6 +28,10 @@
     align-items: center;
     padding: 18px 16px;
     border-bottom: 1px solid #ececec;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10;
 
 }
 .create-post-header h2{
@@ -47,23 +52,33 @@
 }
 .back-btn{
     color: #444;
+    text-decoration: none;
 
 }
 .post-btn{
 
     color: #5f6ff2;
     font-size: 1rem;
+    transition: 0.2s ease;
 
+}
+.post-btn:disabled{
+
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+.post-btn:not(:disabled):hover{
+    transform: scale(1.05);
 }
 .create-post-body{
 
-    padding: 18px 16px 24px;
+    padding: 20px 18px 24px;
 
 }
 .user-row{
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     margin-bottom: 16px;
 
 }
@@ -85,7 +100,7 @@
 .post-textarea{
 
     width: 100%;
-    min-height: 140px;
+    min-height: 190px;
     border: none;
     resize: none;
     font-family: inherit;
@@ -94,6 +109,7 @@
     background: transparent;
     outline: none;
     margin-bottom: 18px;
+    line-height: 1.5;
 
 }
 .post-textarea::placeholder{
@@ -123,6 +139,10 @@
     overflow: hidden;
 
 }
+.upload-box:hover{
+    border-color: #7a82ff;
+    background: #f0f2ff;
+}
 .upload-placeholder{
 
     display: flex;
@@ -149,6 +169,7 @@
     max-height: 280px;
     object-fit: cover;
     border-radius: 16px;
+    display: block;
 }
 .navbar-temp{
 
