@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function CreatePost() {
     const username = "my username";
+    const navigate = useNavigate();
+
 //temp for post button being disabled if the fields are empty
 //temp for being able to add an image to a new post creation
     const [text, setText] = useState('');
@@ -17,6 +19,12 @@ function CreatePost() {
     };
 
     const isPostEnabled = text.trim() !== "" || file !== null;
+//this is temp so that when you click post it will take you to the post details page
+    const handlePostSubmit = () => {
+        if (!isPostEnabled) return;
+
+        navigate("/post-detail",{state:{username, caption:text, previewUrl, fileType: file ? file.type : "",},});
+    };
 
 
     return (
@@ -26,7 +34,7 @@ function CreatePost() {
                     <Link to="/profile" className="back-btn">back</Link>
 
                     <h2>new post</h2>
-                    <button className="post-btn" disabled={!isPostEnabled}>post</button>
+                    <button className="post-btn" disabled={!isPostEnabled} onClick={handlePostSubmit}>post</button>
 
                 </div>
 
