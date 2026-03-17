@@ -199,3 +199,54 @@
     max-width: 430px;
   }
 }
+
+/* post details css below*/
+
+.post-detail-page{
+
+}
+.post-detail-card{
+
+}
+.post-detail-header{
+
+}
+.post-detail-header h2{
+
+}
+.post-detail-body{
+
+}
+.post-detail-media{
+
+}
+.post-detail-caption{
+
+}
+.post-comments-section{
+
+}
+.empty-comments{
+
+}
+.empty-comments p{
+
+}
+.empty-comments span{
+
+}
+@media (min-width: 480px) {
+  .post-detail-card {
+    max-width: 400px;
+  }
+}
+
+@media (min-width: 768px) {
+  .post-detail-page {
+    padding: 24px;
+  }
+
+  .post-detail-card {
+    max-width: 430px;
+  }
+}
