@@ -1,4 +1,6 @@
 function Profile() {
+    const username = "my username";
+    const bio = "bio/info";
     return (
         <div className="profile-page">
             <div className="profile-card">
@@ -7,9 +9,11 @@ function Profile() {
                 <div className="profile-info">
                     <div className="profile-avatar"></div>
 
-                    <h2 className="profile-username">my username</h2>
-                    <p className="profile-bio">bio/info</p>
-                    <p className="profile-connections">connections</p>
+                    <h2 className="profile-username">{username}</h2>
+
+                    <p className="profile-bio">{bio}</p>
+                    <button className="connections-btn">connections</button>
+                   
                     
                 </div>
                 <div className="profile-posts">

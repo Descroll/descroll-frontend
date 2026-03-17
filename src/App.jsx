@@ -5,7 +5,9 @@ import heroImg from './assets/hero.png'
 */
 
 import { Routes, Route, Navigate } from 'react-router-dom';
-import './App.css'
+//import './App.css'
+import './styles/auth.css'
+import './styles/profile.css'
 
 import Login from './pages/auth/Login'
 import Signup from './pages/auth/Signup';
