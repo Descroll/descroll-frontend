@@ -1,3 +1,4 @@
+/* Start of styling for Signup/Login pages */
 .auth-container{
 
   min-height: 100vh;
@@ -147,6 +148,54 @@
     padding: 48px 32px 40px;
   }
 }
+/* End of styling for Signup/Login pages */
+
+/* Start of styling for Profile page */
+
+.profile-page{
+
+}
+.profile-card{
+
+}
+.profile-cover{
+
+}
+.profile-info{
+
+}
+.profile-avatar{
+
+}
+.profile-username{
+
+}
+.profile-bio{
+
+}
+.profile-posts{
+  
+}
+.profile-section{
+
+}
+.profile-section h3{
+
+}
+.user-posts{
+
+}
+.user-posts p{
+
+}
+.user-posts span{
+
+}
+.navbar-sample{
+
+}
+
+/* End of styling for Profile page */
 /*
 .counter {
   font-size: 16px;

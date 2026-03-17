@@ -9,6 +9,7 @@ import './App.css'
 
 import Login from './pages/auth/Login'
 import Signup from './pages/auth/Signup';
+import Profile from './pages/profile/Profile';
 
 function App(){
   return (
@@ -16,6 +17,7 @@ function App(){
       <Route path="/" element={<Navigate to="/signup" replace />}/>
       <Route path='/signup' element={<Signup />}/>
       <Route path='/login' element={<Login />}/>
+      <Route path='/profile' element={<Profile />}/>
     </Routes>
   )
 }
