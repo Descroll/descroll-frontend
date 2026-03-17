@@ -7,6 +7,7 @@ function Profile() {
                 <div className="profile-cover"></div>
 
                 <div className="profile-info">
+                    {/*placeholder for the users photo*/}
                     <div className="profile-avatar"></div>
 
                     <h2 className="profile-username">{username}</h2>
@@ -18,7 +19,7 @@ function Profile() {
                 </div>
                 <div className="profile-posts">
                     <div className="profile-section">
-                        <h3>posts</h3>
+                        <h3>posts</h3> 
                     </div>
 
                     <div className="user-posts">

@@ -6,34 +6,38 @@ function CreatePost() {
                 <div className="create-post-header">
 
                     <button className="back-btn">back</button>
-                    <h2>create post</h2>
+                    <h2>new post</h2>
                     <button className="post-btn">post</button>
 
                 </div>
 
                 <div className="create-post-body">
                     <div className="user-row">
-
-                        <div className="mini-avatar"></div>
+                        {/*placeholder for the users photo*/}
+                        <div className="mini-avatar"></div> 
                         <span className="post-username">{username}</span>
 
                     </div>
                     
-                </div>
-                <textarea className="post-textarea" placeholder="what are you sharing today?"></textarea>
+                
+                    <textarea className="post-textarea" placeholder="what are you sharing today?"></textarea>
 
-                <div className="upload-section">
+                    <div className="upload-section">
 
-                    <div className="upload-box">
-                        <span>add a photo or video</span>
+                        <div className="upload-box">
+                            <span>add a photo or video</span>
+                        </div>
+
                     </div>
-                    
+                </div>  
+
+                <div className="navbar-temp">
+                navbar will be here
                 </div>
+
             </div>
 
-            <div className="navbar-temp">
-                navbar will be here
-            </div>
+           
             
         </div>
 

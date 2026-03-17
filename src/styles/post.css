@@ -1,46 +1,123 @@
 .create-post-page{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #f5f5f7, #eef0ff);
+    padding: 16px;
 
 }
 .create-post-card{
 
+    width: 100%;
+    max-width: 390px;
+    background: white;
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow:    0 15px 40px rgba(0, 0, 0, 0.1),
+    0 0 0 4px rgba(122, 130, 255, 0.2); 
+    display: flex;
+    flex-direction: column;
+
 }
 .create-post-header{
 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 16px;
+    border-bottom: 1px solid #ececec;
+
 }
 .create-post-header h2{
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #111;
 
 }
 .back-btn, .post-btn{
 
+    background: none;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+
 }
 .back-btn{
+    color: #444;
 
 }
 .post-btn{
 
+    color: #5f6ff2;
+
 }
 .create-post-body{
 
+    padding: 18px 16px 24px;
+
 }
 .user-row{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
 
 }
 .mini-avatar{
 
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #111;
+
 }
 .post-username{
+
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #111;
 
 }
 .post-textarea{
 
+    width: 100%;
+    min-height: 140px;
+    border: none;
+    resize: none;
+    font-family: inherit;
+    font-size: 1rem;
+    color: #111;
+    background: transparent;
+    outline: none;
+    margin-bottom: 18px;
+
 }
 .post-textarea::placeholder{
+
+    color: #7a7a7a;
 
 }
 .upload-section{
 
+    margin-bottom: 20px;
+
 }
 .upload-box{
+
+    min-height: 180px;
+    border: 2px dashed #cfd3ff;
+    border-radius: 20px;
+    background: #f7f8ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    color: #5f6ff2;
+    font-weight: 600;
 
 }
 .navbar-temp{
