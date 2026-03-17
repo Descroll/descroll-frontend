@@ -1,23 +1,30 @@
 function Signup() {
     return (
-        <div>
-            <h1>DeScroll </h1>
-            <h2>Get Started Now</h2>
+        <div className="auth-container">
+            <div className="auth-card">
+                <h1 className="logo">DeScroll </h1>
+                <h2 className="auth-title">Get Started Now</h2>
 
-            <input type = "text" placeholder = "Username" />
-            <input type = "text" placeholder = "Email" />
-            <input type = "text" placeholder = "Password" />
+                <div className="auth-form">
 
-            <label>
-                <input type = "checkbox" />
-                I agree to the terms & policy
-            </label>
+                    <input className="auth-input" type = "text" placeholder = "Username" />
+                    <input className="auth-input" type = "text" placeholder = "Email" />
+                    <input className="auth-input" type = "text" placeholder = "Password" />
 
-            <button> Signup </button>
+                    <label className="terms">
+                        <input type = "checkbox" />
+                        I agree to the terms & policy
+                    </label>
 
-            <p>
-                Have an account already? Log in
-            </p>
+                    <button className="primary-btn"> Signup </button>
+
+                </div>    
+
+                <p className="auth-footer">
+                    Have an account already? {" "}
+                    <span className="link-text">Log in</span>
+                </p>
+            </div>
 
         </div>
 

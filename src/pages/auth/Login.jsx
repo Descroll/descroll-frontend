@@ -1,21 +1,35 @@
 function Login() {
     return (
-        <div>
-            <h1>Descroll </h1>
-            <h2>Welcome Back! </h2>
+        <div className="auth-container">
+            <div className="auth-card">
+                <h1 className="logo">DeScroll </h1>
+                <h2 className="auth-title">Welcome Back!!</h2>
 
-            <input type="email" placeholder="Email address" />
-            <input type="password" placeholder="Password" />
+                <p className="auth-subtitle">
+                    Enter your credentials to access your account
+                </p>
 
-            <button>Login</button>
+                <div className="auth-form">
 
-            <p>
-                Dont have an account yet? Sign Up
-            </p>
+                    <input className="auth-input" type = "email" placeholder = "Email" />
+                    <input className="auth-input" type = "password" placeholder = "Password" />
+
+                    <div className="forgot-row">
+                        <span className="forgot-link">Forgot password?</span>
+                    </div>
+
+                    <button className="primary-btn"> Login </button>
+
+                </div>    
+
+                <p className="auth-footer">
+                    Don't have an account yet? {" "}
+                    <span className="link-text">Sign up</span>
+                </p>
+            </div>
 
         </div>
 
-    
     );
 }
-export default Login;
+export default Login; 
