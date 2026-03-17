@@ -8,8 +8,9 @@ function Profile() {
                     <div className="profile-avatar"></div>
 
                     <h2 className="profile-username">my username</h2>
-                    <p className="profile-connections">connections</p>
                     <p className="profile-bio">bio/info</p>
+                    <p className="profile-connections">connections</p>
+                    
                 </div>
                 <div className="profile-posts">
                     <div className="profile-section">

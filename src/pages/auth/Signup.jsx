@@ -10,8 +10,8 @@ function Signup() {
                 <div className="auth-form">
 
                     <input className="auth-input" type = "text" placeholder = "Username" />
-                    <input className="auth-input" type = "text" placeholder = "Email" />
-                    <input className="auth-input" type = "text" placeholder = "Password" />
+                    <input className="auth-input" type = "email" placeholder = "Email" />
+                    <input className="auth-input" type = "password" placeholder = "Password" />
 
                     <label className="terms">
                         <input type = "checkbox" />
