@@ -4,13 +4,20 @@ import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 */
 
-//import Login from './pages/auth/Login'
+import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css'
+
+import Login from './pages/auth/Login'
 import Signup from './pages/auth/Signup';
 
 function App(){
-  //return <Login />;
-  return <Signup />;
+  return (
+    <Routes>
+      <Route path="/" element={<Navigate to="/signup" replace />}/>
+      <Route path='/signup' element={<Signup />}/>
+      <Route path='/login' element={<Login />}/>
+    </Routes>
+  )
 }
 export default App;
 

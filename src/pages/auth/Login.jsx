@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function Login() {
     return (
         <div className="auth-container">
@@ -24,7 +26,9 @@ function Login() {
 
                 <p className="auth-footer">
                     Don't have an account yet? {" "}
-                    <span className="link-text">Sign up</span>
+                    <Link to="/signup" className="link-text">
+                    Sign up
+                    </Link>
                 </p>
             </div>
 
