@@ -14,7 +14,7 @@ function PostDetail() {
 
                     <h2>post</h2>
 
-                    <div style={{width: "40px" }}></div>
+                    <Link to="/edit-post" state={{username, caption, previewUrl, fileType}} className="edit-btn">edit</Link>
                 </div>
 
                 <div className="post-detail-body">
