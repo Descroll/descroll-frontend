@@ -1,0 +1,73 @@
+.create-post-page{
+
+}
+.create-post-card{
+
+}
+.create-post-header{
+
+}
+.create-post-header h2{
+
+}
+.back-btn, .post-btn{
+
+}
+.back-btn{
+
+}
+.post-btn{
+
+}
+.create-post-body{
+
+}
+.user-row{
+
+}
+.mini-avatar{
+
+}
+.post-username{
+
+}
+.post-textarea{
+
+}
+.post-textarea::placeholder{
+
+}
+.upload-section{
+
+}
+.upload-box{
+
+}
+.navbar-temp{
+
+  height: 72px;
+  background: linear-gradient(90deg, #5c63e6, #3f44b9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-top: auto;
+
+}
+@media (min-width: 480px) {
+  .create-post-card {
+    max-width: 400px;
+  }
+}
+
+@media (min-width: 768px) {
+  .create-post-page {
+    padding: 24px;
+  }
+
+  .create-post-card {
+    max-width: 430px;
+  }
+}

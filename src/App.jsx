@@ -6,12 +6,15 @@ import heroImg from './assets/hero.png'
 
 import { Routes, Route, Navigate } from 'react-router-dom';
 //import './App.css'
+import './index.css'
 import './styles/auth.css'
 import './styles/profile.css'
+import './styles/post.css'
 
 import Login from './pages/auth/Login'
 import Signup from './pages/auth/Signup';
 import Profile from './pages/profile/Profile';
+import CreatePost from './pages/post/CreatePost';
 
 function App(){
   return (
@@ -20,6 +23,7 @@ function App(){
       <Route path='/signup' element={<Signup />}/>
       <Route path='/login' element={<Login />}/>
       <Route path='/profile' element={<Profile />}/>
+      <Route path='/create-post' element={<CreatePost />}/>
     </Routes>
   )
 }
