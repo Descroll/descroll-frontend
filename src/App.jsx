@@ -13,6 +13,7 @@ import CreatePost from './pages/post/CreatePost';
 import PostDetail from './pages/post/PostDetail';
 import EditPost from './pages/post/EditPost';
 import BottomNav from './components/navigation/BottomNav';
+import UserProfile from './pages/profile/OtherProfile';
 
 const HIDE_NAV = ['/login', '/signup'];
 
@@ -26,6 +27,7 @@ function AppContent() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/users/:id" element={<UserProfile />} />
         <Route path="/posts/new" element={<CreatePost />} />
         <Route path="/posts/:id" element={<PostDetail />} />
         <Route path="/posts/:id/edit" element={<EditPost />} />

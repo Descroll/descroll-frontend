@@ -1,0 +1,46 @@
+.user-profile-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+    justify-content: center;
+}
+
+.follow-btn,
+.message-btn {
+    padding: 8px 24px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+.follow-btn {
+    background-color: #5B5BD6;
+    color: white;
+}
+
+.message-btn {
+    background-color: transparent;
+    color: #5B5BD6;
+    border: 1.5px solid #5B5BD6;
+}
+
+.follow-btn:hover,
+.message-btn:hover {
+    opacity: 0.8;
+    transform: scale(1.03);
+}
+
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    margin-top: 8px;
+}
+
+.post-thumbnail {
+    aspect-ratio: 1;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+}
