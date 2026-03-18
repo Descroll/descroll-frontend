@@ -4,34 +4,44 @@ import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 */
 
-import { Routes, Route, Navigate } from 'react-router-dom';
-//import './App.css'
-import './index.css'
-import './styles/auth.css'
-import './styles/profile.css'
-import './styles/post.css'
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import Login from './pages/auth/Login'
+import Login from './pages/auth/Login';
 import Signup from './pages/auth/Signup';
 import Profile from './pages/profile/Profile';
 import CreatePost from './pages/post/CreatePost';
 import PostDetail from './pages/post/PostDetail';
 import EditPost from './pages/post/EditPost';
 
-function App(){
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+// The main app with tab bar (shown after login)
+function MainTabs() {
   return (
-    <Routes>
-      <Route path="/" element={<Navigate to="/signup" replace />}/>
-      <Route path='/signup' element={<Signup />}/>
-      <Route path='/login' element={<Login />}/>
-      <Route path='/profile' element={<Profile />}/>
-      <Route path='/create-post' element={<CreatePost />}/>
-      <Route path='/post-detail' element={<PostDetail />}/>
-      <Route path='/edit-post' element={<EditPost />}/>
-    </Routes>
-  )
+    <Tab.Navigator>
+      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="CreatePost" component={CreatePost} />
+      <Tab.Screen name="PostDetail" component={PostDetail} />
+      <Tab.Screen name="EditPost" component={EditPost} />
+    </Tab.Navigator>
+  );
 }
-export default App;
+
+// Root: auth screens + main app
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Signup" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Signup" component={Signup} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Main" component={MainTabs} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
 
 /*function App() {
   const [count, setCount] = useState(0)
