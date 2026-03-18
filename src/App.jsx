@@ -4,9 +4,7 @@ import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 */
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 import Login from './pages/auth/Login';
 import Signup from './pages/auth/Signup';
@@ -14,33 +12,33 @@ import Profile from './pages/profile/Profile';
 import CreatePost from './pages/post/CreatePost';
 import PostDetail from './pages/post/PostDetail';
 import EditPost from './pages/post/EditPost';
+import BottomNav from './components/navigation/BottomNav';
 
-const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
+const HIDE_NAV = ['/login', '/signup'];
 
-// The main app with tab bar (shown after login)
-function MainTabs() {
+function AppContent() {
+  const location = useLocation();
+  const showNav = !HIDE_NAV.includes(location.pathname);
+
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Profile" component={Profile} />
-      <Tab.Screen name="CreatePost" component={CreatePost} />
-      <Tab.Screen name="PostDetail" component={PostDetail} />
-      <Tab.Screen name="EditPost" component={EditPost} />
-    </Tab.Navigator>
+    <>
+      <Routes>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/posts/new" element={<CreatePost />} />
+        <Route path="/posts/:id" element={<PostDetail />} />
+        <Route path="/posts/:id/edit" element={<EditPost />} />
+        <Route path="/" element={<Navigate to="/signup" replace />} />
+        <Route path="*" element={<Navigate to="/signup" replace />} />
+      </Routes>
+      {showNav && <BottomNav />}
+    </>
   );
 }
 
-// Root: auth screens + main app
 export default function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Signup" screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Signup" component={Signup} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Main" component={MainTabs} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+  return <AppContent />;
 }
 
 /*function App() {

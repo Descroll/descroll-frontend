@@ -1,3 +1,5 @@
+import BottomNav from '../../components/navigation/BottomNav';
+
 function Profile() {
     const username = "my username";
     const bio = "bio/info";
@@ -27,9 +29,7 @@ function Profile() {
                         <span>your photos, videos, and text posts will show here</span>
                     </div>
                 </div>
-                <div className="navbar-temp">
-                    navbar will be here
-                </div>
+                <BottomNav />
             </div>
             
         </div>
