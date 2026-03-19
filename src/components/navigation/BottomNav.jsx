@@ -56,7 +56,7 @@ function ProfileIcon({ active }) {
 
 const tabs = [
   { path: '/home',        Icon: HomeIcon    },
-  { path: '/create-post', Icon: CreateIcon  },
+  { path: '/posts/new', Icon: CreateIcon  },
   { path: '/profile',     Icon: ProfileIcon },
 ];
 

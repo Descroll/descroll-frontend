@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import "../../styles/post.css";
+import BottomNav from "../../components/navigation/BottomNav";
 
 function EditPost() {
     
@@ -31,7 +32,7 @@ function EditPost() {
     const handlePostSubmit = () => {
         if (!isPostEnabled) return;
 
-        navigate("/post-detail",{state:{username, caption:text, previewUrl, fileType,},});
+        navigate("/posts/:id",{state:{username, caption:text, previewUrl, fileType,},});
     };
 
 
@@ -39,7 +40,7 @@ function EditPost() {
         <div className="create-post-page">
             <div className="create-post-card">
                 <div className="create-post-header">
-                    <Link to="/post-detail" className="back-btn">back</Link>
+                    <Link to="/posts/:id" className="back-btn">back</Link>
 
                     <h2>edit post</h2>
                     <button className="post-btn" disabled={!isPostEnabled} onClick={handlePostSubmit}>save</button>
@@ -82,9 +83,7 @@ function EditPost() {
                     </div>
                 </div>  
 
-                <div className="navbar-temp">
-                navbar will be here
-                </div>
+              <BottomNav />
 
             </div>
 

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import "../../styles/auth.css";
 function Login() {
     return (
         <div className="auth-container">

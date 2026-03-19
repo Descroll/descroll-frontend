@@ -1,5 +1,5 @@
 import BottomNav from '../../components/navigation/BottomNav';
-
+import "../../styles/profile.css";
 function Profile() {
     const username = "my username";
     const bio = "bio/info";
