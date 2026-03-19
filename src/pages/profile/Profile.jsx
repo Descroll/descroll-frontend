@@ -1,8 +1,10 @@
 import BottomNav from '../../components/navigation/BottomNav';
 import "../../styles/profile.css";
+import UserGallery from '../../components/post/UserGallery';
 function Profile() {
     const username = "my username";
     const bio = "bio/info";
+    const posts = [] //fill this in later with real data
     return (
         <div className="profile-page">
             <div className="profile-card">
@@ -23,11 +25,7 @@ function Profile() {
                     <div className="profile-section">
                         <h3>posts</h3> 
                     </div>
-
-                    <div className="user-posts">
-                        <p>no posts yet...</p>
-                        <span>your photos, videos, and text posts will show here</span>
-                    </div>
+                    <UserGallery posts={posts} /> {/* replace with real posts later */}
                 </div>
                 <BottomNav />
             </div>
