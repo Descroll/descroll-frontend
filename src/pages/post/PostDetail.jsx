@@ -1,5 +1,6 @@
 import { Link, useLocation} from "react-router-dom";
 import "../../styles/post.css"
+import BottomNav from "../../components/navigation/BottomNav";
 
 function PostDetail() {
     const location = useLocation();
@@ -14,7 +15,7 @@ function PostDetail() {
 
                     <h2>post</h2>
 
-                    <Link to="/edit-post" state={{username, caption, previewUrl, fileType}} className="edit-btn">edit</Link>
+                    <Link to="/posts/:id/edit" state={{username, caption, previewUrl, fileType}} className="edit-btn">edit</Link>
                 </div>
 
                 <div className="post-detail-body">
@@ -45,7 +46,7 @@ function PostDetail() {
                     </div>
                 </div>
 
-                <div className="navbar-temp">navbar will be here</div>
+                <BottomNav />
             </div>
             
         </div>

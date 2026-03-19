@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import BottomNav from "../../components/navigation/BottomNav";
 
 function CreatePost() {
     const username = "my username";
@@ -23,7 +24,7 @@ function CreatePost() {
     const handlePostSubmit = () => {
         if (!isPostEnabled) return;
 
-        navigate("/post-detail",{state:{username, caption:text, previewUrl, fileType: file ? file.type : "",},});
+        navigate("/posts/:id",{state:{username, caption:text, previewUrl, fileType: file ? file.type : "",},});
     };
 
 
@@ -75,13 +76,11 @@ function CreatePost() {
                     </div>
                 </div>  
 
-                <div className="navbar-temp">
-                navbar will be here
-                </div>
+               
 
             </div>
 
-           
+           <BottomNav />
             
         </div>
 
