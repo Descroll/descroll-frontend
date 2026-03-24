@@ -1,28 +1,67 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../../styles/auth.css";
+
 function Login() {
+    const [formData, setFormData] = useState({email: "", password: "",});
+    const [status, setStatus] = useState({ error: null, success: null, loading: false });
+
+    const handleChange = (e) => {
+        const{name, value} = e.target;
+        setFormData((prev) => ({...prev, [name]:value ,}));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault(); 
+        setStatus({ error: null, success: null, loading: true });
+
+        try {
+            const response = await fetch('http://localhost:5000/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.error || `HTTP error: Status ${response.status}`);
+            }
+
+            console.log("login was successful", result);
+            setStatus({ error: null, success: "Login successful!", loading: false });
+        } catch (err) {
+            setStatus({ error: err.message, success: null, loading: false });
+        }
+    };
+
     return (
         <div className="auth-container">
             <div className="auth-card">
                 <h1 className="logo">DeScroll </h1>
-                <h2 className="auth-title">Welcome Back!!</h2>
+                <h2 className="auth-title">Welcome Back!</h2>
 
                 <p className="auth-subtitle">
                     Enter your credentials to access your account
                 </p>
 
-                <div className="auth-form">
+                <form className="auth-form" onSubmit={handleSubmit}>
+                    
+                    {status.error && <div style={{ color: "red", marginBottom: "10px" }}>{status.error}</div>}
+                    {status.success && <div style={{ color: "green", marginBottom: "10px" }}>{status.success}</div>}
 
-                    <input className="auth-input" type = "email" placeholder = "Email" />
-                    <input className="auth-input" type = "password" placeholder = "Password" />
+                    <input id="login-email" name="email" className="auth-input" type = "email" placeholder = "Email" value={formData.email} onChange={handleChange} />
+                    <input id="login-password" name="password" className="auth-input" type = "password" placeholder = "Password" value={formData.password} onChange={handleChange} />
 
                     <div className="forgot-row">
                         <span className="forgot-link">Forgot password?</span>
                     </div>
 
-                    <button className="primary-btn"> Login </button>
+                    <button className="primary-btn" type="submit" disabled={status.loading}> 
+                        {status.loading ? "Loading..." : "Login"} 
+                    </button>
 
-                </div>    
+                </form>    
 
                 <p className="auth-footer">
                     Don't have an account yet? {" "}
@@ -31,9 +70,7 @@ function Login() {
                     </Link>
                 </p>
             </div>
-
         </div>
-
     );
 }
-export default Login; 
+export default Login;

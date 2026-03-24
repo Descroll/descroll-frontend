@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import BottomNav from '../../components/navigation/BottomNav';
 import './UserProfile.css';
@@ -5,10 +6,57 @@ import './UserProfile.css';
 function UserProfile() {
     const { id } = useParams();
 
-    // placeholder data — replace with real fetch later
-    const username = "their username";
-    const bio = "their bio/info";
-    const posts = []; // fill with real posts later
+
+    const [profileData, setProfileData] = useState({ username: "Loading...", bio: "" });
+    const [posts, setPosts] = useState([]);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                
+
+                const profileRes = await fetch(`http://localhost:5000/user/${id}/profile`);
+                if (!profileRes.ok) {
+                    throw new Error(`HTTP error: Status ${profileRes.status}`);
+                }
+                const profileJson = await profileRes.json();
+                
+
+                const postsRes = await fetch(`http://localhost:5000/user/${id}/posts`);
+                if (!postsRes.ok) {
+                    throw new Error(`HTTP error: Status ${postsRes.status}`);
+                }
+                const postsJson = await postsRes.json();
+
+
+                setProfileData(profileJson);
+                setPosts(postsJson);
+                setError(null);
+
+            } catch (err) {
+
+                console.error("Fetch error:", err);
+                setError(err.message);
+                setProfileData({ username: "Error", bio: "Could not load profile." });
+            } finally {
+
+                setLoading(false); 
+            }
+        };
+
+        if (id) {
+            fetchData();
+        }
+    }, [id]);
+
+
+    if (error) {
+        return <div className="profile-page" style={{padding: '2rem'}}>Error: {error}</div>;
+    }
 
     return (
         <div className="profile-page">
@@ -16,12 +64,11 @@ function UserProfile() {
                 <div className="profile-cover"></div>
 
                 <div className="profile-info">
-                    {/* placeholder for their photo */}
+                    {/* photo for avatar */}
                     <div className="profile-avatar"></div>
 
-                    <h2 className="profile-username">{username}</h2>
-
-                    <p className="profile-bio">{bio}</p>
+                    <h2 className="profile-username">{loading ? "Loading..." : profileData.username}</h2>
+                    <p className="profile-bio">{loading ? "..." : profileData.bio}</p>
 
                     <div className="user-profile-actions">
                         <button className="follow-btn">follow</button>
@@ -34,7 +81,9 @@ function UserProfile() {
                         <h3>posts</h3>
                     </div>
 
-                    {posts.length === 0 ? (
+                    {loading ? (
+                        <div className="user-posts"><p>Loading posts...</p></div>
+                    ) : posts.length === 0 ? (
                         <div className="user-posts">
                             <p>no posts yet...</p>
                             <span>this user hasn't posted anything yet</span>
@@ -44,6 +93,7 @@ function UserProfile() {
                             {posts.map((post) => (
                                 <div key={post.id} className="post-thumbnail">
                                     {/* render post thumbnails here */}
+                                    
                                 </div>
                             ))}
                         </div>
