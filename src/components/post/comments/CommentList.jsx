@@ -1,38 +1,48 @@
-import { useState, useEffecvt} from 'react';
+import React, { useState } from 'react';
 
-const Comment = ({ comment }) => {
-    return(
-        <div className="comment">
-            <p><strong>{comment.user}</strong>{comment.text}</p>
+const Comment = ({ comment, onReply }) => {
+  const [showReplyBox, setShowReplyBox] = useState(false);
+  const [replyText, setReplyText] = useState('');
+
+  const handleReplySubmit = () => {
+    if (replyText.trim()) {
+      onReply(comment.id, replyText);
+      setReplyText('');
+      setShowReplyBox(false);
+    }
+  };
+
+  return (
+    <div className="comment-container">
+      <p><strong>{comment.author}</strong>: {comment.text}</p>
+      {/* Button to toggle the reply input box */}
+      <button onClick={() => setShowReplyBox(!showReplyBox)}>
+        {showReplyBox ? 'Cancel Reply' : 'Reply'}
+      </button>
+
+      {/* Conditional rendering of the reply box */}
+      {showReplyBox && (
+        <div className="reply-box">
+          <input
+            type="text"
+            value={replyText}
+            onChange={(e) => setReplyText(e.target.value)}
+            placeholder="Add a reply..."
+          />
+          <button onClick={handleReplySubmit}>Post Reply</button>
         </div>
-    );
+      )}
+
+      {/* Recursively render nested replies */}
+      {comment.replies && comment.replies.length > 0 && (
+        <div className="replies-container">
+          {comment.replies.map(reply => (
+            <Comment key={reply.id} comment={reply} onReply={onReply} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
 };
 
-const CommentList = ({ postId }) => {
-    const [comments, setComments] = useState([]);
-
-    useEffect(() => {
-        // Fetch comments for the given postId
-        fetch(`/api/posts/${postId}/comments`)
-            .then(response => response.json())
-            .then(data => setComments(data))
-            .catch(error => console.error('Error fetching comments:', error));
-    }, [postId]);
-
-    return (
-        <div className = "comments-section">
-            <h3>Comments</h3>
-            {comments.map(comment => (
-                <Comment key={comment.id} comment={comment} />
-            ))}
-            <CommentBox
-                commentValue= {this.state.commentValue}
-                handleCommentValue={this.handleCommentValue}
-                enterCommentLine={this.enterCommentLine}
-                submitCommentLine={this.submitCommentLine}
-            />
-        </div>
-    )
-}
-
-export default CommentList;
+export default Comment;
