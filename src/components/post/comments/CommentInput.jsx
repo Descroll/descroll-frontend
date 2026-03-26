@@ -14,7 +14,7 @@ class CommentBox extends Component{
 
         return(
             <div className = "comments-box">
-                <input onKeyPress={enterCommentLine} value={commentValue}
+                <input onKeyDown={enterCommentLine} value={commentValue}
                 id="comments-input" onChange={handleCommentValue} type="text" placeholder="Add a comment..."/>"
 
                 <button onClick={submitCommentLine} type="submit" className= "comments-button"
