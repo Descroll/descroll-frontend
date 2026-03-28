@@ -1,11 +1,21 @@
-import { Link, useLocation} from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import "../../styles/post.css"
+import "../../App.css";
 import BottomNav from "../../components/navigation/BottomNav";
+import StateBox from "../../components/StateBox";
 
 function PostDetail() {
+
     const location = useLocation();
-    const postData = location.state || {username:"username", caption:"just a sample caption for rn", previewUrl:"",fileType:"", };
-    const {username, caption, previewUrl, fileType} = postData;
+    const postData = location.state; //|| {username:"username", caption:"just a sample caption for rn", previewUrl:"",fileType:"", };
+    const {username, caption, previewUrl, fileType} = postData || {};
+
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+    const isEmpty = !postData || (!postData.caption && !postData.previewUrl);
+
+    useEffect(() =>{ setTimeout(()=>{try {setLoading(false);} catch {setError(true); setLoading(false);} }, 800);}, []);
 
     return (
         <div className="post-detail-page">
@@ -19,31 +29,41 @@ function PostDetail() {
                 </div>
 
                 <div className="post-detail-body">
-                    <div className="user-row">
-                        <div className="mini-avatar"></div>
-                        <span className="post-username">{username}</span>
-                    </div>
 
-                    {previewUrl && (                        // this lets you do a local preview of a post made in createpost page
-                        fileType.startsWith("video/") ? (
-                            <video className="post-detail-preview" controls>
-                                <source src={previewUrl} type={fileType} />
-                                video type not supported
-                            </video>
-                        ) : (
-                            <img src={previewUrl} alt="post preview" className="post-detail-preview"/>
-                        )
+                    {loading && ( <StateBox title="loading post..."/>)}
+                    {error && ( <StateBox title="something went wrong" subtitle="try aagain later"/>)}
+                    {!loading && !error && isEmpty && (<StateBox title="no post yet" subtitle="nothing to display"/>)}
+
+                    {!loading && !error && !isEmpty && ( 
+                        <>
+                            <div className="user-row">
+                                <div className="mini-avatar"></div>
+                                <span className="post-username">{username}</span>
+                            </div>
+
+                            {previewUrl && (                        // this lets you do a local preview of a post made in createpost page
+                                fileType && fileType.startsWith("video/") ? (
+                                    <video className="post-detail-preview" controls>
+                                        <source src={previewUrl} type={fileType} />
+                                        video type not supported
+                                    </video>
+                                ) : (
+                                    <img src={previewUrl} alt="post preview" className="post-detail-preview"/>
+                                )
+                            )}
+
+                            {caption && <p className="post-detail-caption">{caption}</p>}
+
+                            <div className="post-comments-section">
+                                <h3>comments</h3>
+                                <div className="empty-comments">
+                                    <p>no comments yet...</p>
+                                    <span>comments will appear here later</span>
+                                </div>
+                            </div>
+                        </>
                     )}
 
-                    {caption && <p className="post-detail-caption">{caption}</p>}
-
-                    <div className="post-comments-section">
-                        <h3>comments</h3>
-                        <div className="empty-comments">
-                            <p>no comments yet...</p>
-                            <span>comments will appear here later</span>
-                        </div>
-                    </div>
                 </div>
 
                 <BottomNav />
