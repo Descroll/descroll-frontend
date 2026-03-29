@@ -1,18 +1,49 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../../styles/auth.css";
-function Signup() {
 
+function Signup() {
     const [formData,setFormData] = useState({username: "", email: "", password: "", agreedToTerms: false,});
+    const [status, setStatus] = useState({ error: null, success: null, loading: false });
 
     const handleChange = (e) => {
         const{name, value, type, checked} = e.target;
-
         setFormData((prev) => ({...prev, [name]:type === "checkbox" ? checked : value,}));
     };
 
-    const handleSubmit = (e) =>{e.preventDefault(); console.log("signup was successful", formData);};
+    const handleSubmit = async (e) => {
+        e.preventDefault(); 
+        
+        if (!formData.agreedToTerms) {
+            setStatus({ error: "Please agree to the terms & policy.", success: null, loading: false });
+            return;
+        }
 
+        setStatus({ error: null, success: null, loading: true });
+
+        try {
+            const response = await fetch('http://localhost:5000/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: formData.username,
+                    email: formData.email,
+                    password: formData.password
+                })
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.error || `HTTP error: Status ${response.status}`);
+            }
+
+            console.log("signup was successful", result);
+            setStatus({ error: null, success: "Signup successful! You can now log in.", loading: false });
+        } catch (err) {
+            setStatus({ error: err.message, success: null, loading: false });
+        }
+    };
 
     return (
         <div className="auth-container">
@@ -21,6 +52,9 @@ function Signup() {
                 <h2 className="auth-title">Get Started Now</h2>
 
                 <form className="auth-form" onSubmit={handleSubmit}>
+
+                    {status.error && <div style={{ color: "red", marginBottom: "10px" }}>{status.error}</div>}
+                    {status.success && <div style={{ color: "green", marginBottom: "10px" }}>{status.success}</div>}
 
                     <input id="signup-username" name="username" className="auth-input" type = "text" placeholder = "Username" value={formData.username} onChange={handleChange} />
                     <input id="signup-email" name="email" className="auth-input" type = "email" placeholder = "Email" value={formData.email} onChange={handleChange} />
@@ -31,7 +65,9 @@ function Signup() {
                         I agree to the terms & policy
                     </label>
 
-                    <button className="primary-btn" type="submit"> Signup </button>
+                    <button className="primary-btn" type="submit" disabled={status.loading}> 
+                        {status.loading ? "Loading..." : "Signup"} 
+                    </button>
 
                 </form>    
 
@@ -42,9 +78,7 @@ function Signup() {
                     </Link>
                 </p>
             </div>
-
         </div>
-
     );
 }
-export default Signup; 
+export default Signup;

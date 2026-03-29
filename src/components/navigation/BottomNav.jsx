@@ -54,15 +54,52 @@ function ProfileIcon({ active }) {
   );
 }
 
+// SCRUM-63: New icon for the logout button
+function LogoutIcon() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path 
+        d="M12 26H8C6.89543 26 6 25.1046 6 24V8C6 6.89543 6.89543 6 8 6H12M20 22L26 16M26 16L20 10M26 16H10" 
+        stroke="#1a1a2e" 
+        strokeWidth="2" 
+        strokeLinecap="round" 
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 const tabs = [
-  { path: '/home',        Icon: HomeIcon    },
+  { path: '/home',      Icon: HomeIcon    },
   { path: '/posts/new', Icon: CreateIcon  },
-  { path: '/profile',     Icon: ProfileIcon },
+  { path: '/profile',   Icon: ProfileIcon },
 ];
 
 export default function BottomNav() {
   const location = useLocation();
   const navigate = useNavigate();
+
+
+  const handleLogout = async () => {
+    try {
+
+      const response = await fetch('http://localhost:5000/auth/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+
+        navigate('/login'); 
+      } else {
+        console.error('Logout failed on the backend.');
+      }
+    } catch (error) {
+      console.error('Network error while trying to log out:', error);
+    }
+  };
 
   return (
     <nav className="bottom-nav">
@@ -79,6 +116,14 @@ export default function BottomNav() {
             </button>
           );
         })}
+
+        <button
+          className="bottom-nav__tab"
+          onClick={handleLogout}
+          aria-label="Logout"
+        >
+          <LogoutIcon />
+        </button>
       </div>
     </nav>
   );
