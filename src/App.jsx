@@ -15,6 +15,7 @@ import EditPost from './pages/post/EditPost';
 import BottomNav from './components/navigation/BottomNav';
 import UserProfile from './pages/profile/OtherProfile';
 import SearchUsers from './pages/home/SearchUsers';
+import Settings from './pages/profile/Settings';
 
 const HIDE_NAV = ['/login', '/signup'];
 
@@ -33,6 +34,7 @@ function AppContent() {
         <Route path="/posts/:id" element={<PostDetail />} />
         <Route path="/posts/:id/edit" element={<EditPost />} />
         <Route path="/search" element={<SearchUsers />} />
+        <Route path="/settings" element={<Settings />} />
         <Route path="/" element={<Navigate to="/signup" replace />} />
         <Route path="*" element={<Navigate to="/signup" replace />} />
       </Routes>

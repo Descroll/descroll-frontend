@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import BottomNav from '../../components/navigation/BottomNav';
 import "../../styles/profile.css";
 import UserGallery from '../../components/post/UserGallery';
@@ -70,6 +71,8 @@ function Profile() {
                     </p>
                     
                     <button className="connections-btn">connections</button>
+                    <p><Link to="/settings" className='settings-btn'>settings</Link></p>
+                    
                 </div>
                 
                 <div className="profile-posts">
