@@ -54,3 +54,25 @@
     color: #111;
 
 }
+.settings-row{
+
+    margin-top: 10px;
+    padding: 12px 14px;
+    background: rgba(223, 224, 251, 0.6);
+    border-radius: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.toggle-btn{
+
+    background: linear-gradient(90deg, #5c63e6, #3f44b9);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    cursor: pointer;
+
+}

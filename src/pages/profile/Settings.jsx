@@ -1,7 +1,9 @@
 import BottomNav from "../../components/navigation/BottomNav";
 import "../../styles/settings.css";
-
+//import { useTheme } from "../../"; will be the theme logic 
 function Settings() {
+
+    //const {theme, toggleTheme} = useTheme();
 
     return (
         <div className="settings-page">
@@ -17,8 +19,19 @@ function Settings() {
                     </div>
 
                     <div className="settings-section">
-                        <h3>preference</h3>
-                        <p>themes here</p>
+                        <h3>preferences</h3>
+
+                        <div className="settings-row">
+                            <span>Theme</span>
+
+                            <p><button className="toggle-btn">dark mode</button></p>
+
+                            {/*<button onClick={toggleTheme} className="toggle-btn">
+                                {theme === "light" ? "dark mode" : "light mode"}
+                            </button> */}
+
+                        </div>
+                        
                     </div>
                 </div>
 
