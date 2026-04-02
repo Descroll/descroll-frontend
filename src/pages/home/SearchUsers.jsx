@@ -3,19 +3,52 @@ import BottomNav from "../../components/navigation/BottomNav";
 import "../../styles/search.css";
 
 function SearchUsers() {
-    //front-end only, just local data right now for testing
-    const [users, setUsers] = useState([{id: 1, username: "billybob007",bio:"tis me bio here",status:"add", },{id: 2, username: "hellokitty123",bio:"tis me bio here",status:"connected", },{id: 3, username: "theopp67",bio:"tis me bio here",status:"requested", },]);
-
-    //locally stores what is typed in search bar for now
+    const [users, setUsers] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const [isSearching, setIsSearching] = useState(false);
 
-    //clicking add will change the status locally
-    const handleStatusClick = (id) => {
-        setUsers((prevUsers) => prevUsers.map((user) => user.id === id && user.status === "add" ? {...user, status: "requested"} : user));
+    const handleSearch = async () => {
+        if (!searchTerm.trim()) {
+            setUsers([]);
+            return;
+        }
+        try {
+            setIsSearching(true);
+            const res = await fetch(`http://localhost:5000/users/search?q=${searchTerm}`);
+            if (!res.ok) throw new Error("Search failed");
+            const data = await res.json();
+            setUsers(data);
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setIsSearching(false);
+        }
     };
 
-    //filters the locl list, backend needed
-    const filteredUsers = users.filter((user) => user.username.toLowerCase().includes(searchTerm.toLowerCase()));
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') handleSearch();
+    };
+
+    const handleStatusClick = async (receiverId) => {
+        try {
+            const res = await fetch(`http://localhost:5000/connections/request`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ receiver_id: receiverId })
+            });
+
+            if (!res.ok) throw new Error("Failed to send request");
+
+            
+            setUsers((prevUsers) => 
+                prevUsers.map((user) => 
+                    user.id === receiverId ? { ...user, status: "requested" } : user
+                )
+            );
+        } catch (err) {
+            console.error("Error sending connection request:", err);
+        }
+    };
 
     return (
         <div className="search-page">
@@ -26,15 +59,22 @@ function SearchUsers() {
 
                 <div className="search-body">
                     <div className="search-bar">
-                        <input type="text" id="searchUsers" name="searchUsers" placeholder="search for users..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
-
-                        {/*button is only for looks rn*/ }
-                        <button className="search-btn" type="button">🔍</button>
+                        <input 
+                            type="text" 
+                            id="searchUsers" 
+                            name="searchUsers" 
+                            placeholder="search for users..." 
+                            value={searchTerm} 
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            onKeyDown={handleKeyDown} 
+                        />
+                        {/*button works now*/ }
+                        <button className="search-btn" type="button" onClick={handleSearch}>🔍</button>
                     </div>
 
                     <div className="search-results">
-                        {filteredUsers.length > 0 ? (
-                        filteredUsers.map((user) => (
+                        {users.length > 0 ? (
+                        users.map((user) => (
                             <div className="user-row-card" key={user.id}>
                             <div className="user-row-top">
                                 <div className="user-left">
@@ -47,8 +87,13 @@ function SearchUsers() {
                                 </div>
                                 </div>
 
-                                <button type="button" className={`user-status-btn ${user.status}`} onClick={() => handleStatusClick(user.id)} disabled={user.status !== "add"}>
-                                {user.status === "add" && "+ add"}
+                                <button 
+                                    type="button" 
+                                    className={`user-status-btn ${user.status || 'add'}`} 
+                                    onClick={() => handleStatusClick(user.id)} 
+                                    disabled={(user.status || 'add') !== "add"}
+                                >
+                                {(user.status || "add") === "add" && "+ add"}
                                 {user.status === "connected" && "connected"}
                                 {user.status === "requested" && "requested"}
                                 </button>
