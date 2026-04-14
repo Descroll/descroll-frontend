@@ -99,7 +99,7 @@ function UserProfile() {
                         </button>
                         <button className="message-btn">message</button>
                     </div>
-                    </div>
+                    
                 </div>
 
                 <div className="profile-posts">
