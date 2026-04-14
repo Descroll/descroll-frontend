@@ -53,6 +53,26 @@ function UserProfile() {
         }
     }, [id]);
 
+    const handleRemoveConnection = async () => {
+        try {
+            
+            const res = await fetch(`http://localhost:5000/connections/${id}`, {
+                method: 'DELETE',
+            });
+            
+            if (!res.ok) {
+                throw new Error(`HTTP error: Status ${res.status}`);
+            }
+            
+            const data = await res.json();
+            console.log(data.message); 
+            alert("Connection removed"); 
+            
+        } catch (err) {
+            console.error("Failed to remove connection:", err);
+            alert("Could not remove connection.");
+        }
+    };
 
     if (error) {
         return <div className="profile-page" style={{padding: '2rem'}}>Error: {error}</div>;
@@ -70,9 +90,15 @@ function UserProfile() {
                     <h2 className="profile-username">{loading ? "Loading..." : profileData.username}</h2>
                     <p className="profile-bio">{loading ? "..." : profileData.bio}</p>
 
-                    <div className="user-profile-actions">
-                        <button className="follow-btn">follow</button>
+                <div className="user-profile-actions">
+                        <button 
+                            className="remove-btn" 
+                            onClick={handleRemoveConnection}
+                        >
+                            remove connection
+                        </button>
                         <button className="message-btn">message</button>
+                    </div>
                     </div>
                 </div>
 
