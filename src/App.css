@@ -323,7 +323,66 @@
     max-width: 430px;
   }
 }
-/* End of styling for Profile page */
+
+/*delete modals styling*/
+
+.modal-overlay{
+
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 24, 60, 0.4);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.modal-card{
+  
+  width: 85%;
+  max-width: 320px;
+  background: white;
+  border-radius: 24px;
+  padding: 18px;
+  text-align: center;
+  
+}
+
+.modal-actions{
+
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+
+}
+.cancel-btn, .danger-btn {
+  
+  flex: 1;
+  padding: 10px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+
+}
+
+.cancel-btn{
+  background: #e5e7ff;
+}
+.danger-btn{
+  background: linear-gradient(90deg, #ff6b6b, #d93636);
+  color: white;
+}
+.remove-btn {
+
+  background: rgba(255, 107, 107, 0.12);
+  color: #d93636;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
 /*
 .counter {
   font-size: 16px;

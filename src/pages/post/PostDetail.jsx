@@ -1,5 +1,6 @@
 import { Link, useLocation} from "react-router-dom";
 import "../../styles/post.css"
+import "../../App.css";
 import BottomNav from "../../components/navigation/BottomNav";
 
 function PostDetail() {

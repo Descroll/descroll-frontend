@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import "../../styles/post.css";
+import "../../App.css";
 import BottomNav from "../../components/navigation/BottomNav";
 
 function EditPost() {
@@ -16,6 +17,8 @@ function EditPost() {
     const [file, setFile] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(postData.previewUrl || "");
     const [fileType, setFileType] = useState(postData.fileType || "");
+
+    const [showDeletePostModal, setShowDeletePostModal] = useState(false);
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
@@ -43,7 +46,12 @@ function EditPost() {
                     <Link to="/posts/:id" className="back-btn">back</Link>
 
                     <h2>edit post</h2>
-                    <button className="post-btn" disabled={!isPostEnabled} onClick={handlePostSubmit}>save</button>
+
+                    <div className="edit-post-actions">
+                        <button className="remove-btn" type="button" onClick={() => setShowDeletePostModal(true)}>delete</button>
+                        <button className="post-btn" disabled={!isPostEnabled} onClick={handlePostSubmit}>save</button>
+                    </div>
+
 
                 </div>
 
@@ -81,7 +89,23 @@ function EditPost() {
                         </label>
 
                     </div>
-                </div>  
+                </div> 
+
+                {showDeletePostModal && (
+                    <div className='modal-overlay'>
+                        <div className='modal-card'>
+                            <h3>delete post</h3>
+                            <p>are you sure that you want to delete this post?</p>
+                            <p className='warning-text'>this action can NOT be undone.</p>
+
+                            <div className='modal-actions'>
+                                <button className='cancel-btn' onClick={() => setShowDeletePostModal(false)}>cancel</button>
+
+                                <button className='danger-btn' onClick={() => console.log("deleting post...")}>delete</button>
+                            </div>
+                        </div>
+                    </div>
+                )} 
 
               <BottomNav />
 

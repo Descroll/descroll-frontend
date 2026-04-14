@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
 import BottomNav from '../../components/navigation/BottomNav';
 import "../../styles/profile.css";
+import "../../App.css";
 import UserGallery from '../../components/post/UserGallery';
 
 function Profile() {
@@ -11,6 +12,7 @@ function Profile() {
     const [profileData, setProfileData] = useState({ username: "Loading...", bio: "" });
     const [posts, setPosts] = useState([]);
     const [pendingRequests, setPendingRequests] = useState([]); 
+    const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
 
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -97,6 +99,10 @@ function Profile() {
                     </p>
                     
                     <button className="connections-btn">connections</button>
+
+                    {targetId === 'me' && (
+                        <button className='remove-btn' onClick={() => setShowDeleteAccountModal(true)}>delete account</button>
+                    )}
                 </div>
 
                 {targetId === 'me' && pendingRequests.length > 0 && (
@@ -123,6 +129,22 @@ function Profile() {
                         <UserGallery posts={posts} />
                     )}
                 </div>
+
+                {showDeleteAccountModal && (
+                    <div className='modal-overlay'>
+                        <div className='modal-card'>
+                            <h3>delete account</h3>
+                            <p>are you sure that you want to delete your account?</p>
+                            <p className='warning-text'>this action can NOT be undone.</p>
+
+                            <div className='modal-actions'>
+                                <button className='cancel-btn' onClick={() => setShowDeleteAccountModal(false)}>cancel</button>
+
+                                <button className='danger-btn' onClick={() => console.log("deleting account...")}>delete account</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
                 
                 <BottomNav />
             </div>

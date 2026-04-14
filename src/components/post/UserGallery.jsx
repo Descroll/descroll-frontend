@@ -3,6 +3,7 @@ import TextPost from '../post/TextPost';
 import PhotoPost from '../post/PhotoPost';
 import VideoPost from '../post/VideoPost';
 import './UserGalleryStyle.css';
+import "../../App.css";
 
 export default function UserGallery({ posts = [] }) {
     const navigate = useNavigate();
