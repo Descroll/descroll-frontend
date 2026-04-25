@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState("light");
+const [theme, setTheme] = useState("default");
 
   // Load saved theme from localStorage
   useEffect(() => {
@@ -15,16 +15,18 @@ export const ThemeProvider = ({ children }) => {
 
   // Apply theme + save it
   useEffect(() => {
-    document.body.setAttribute("data-theme", theme);
+    document.body.setAttribute("data-theme", theme.toLowerCase());
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
-  };
+  const applyTheme = (newThemeName) => {
+  setTheme(newThemeName);
+};
+
+
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, applyTheme }}>
       {children}
     </ThemeContext.Provider>
   );
