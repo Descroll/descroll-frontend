@@ -10,6 +10,8 @@ function Profile() {
 
     const [profileData, setProfileData] = useState({ username: "Loading...", bio: "" });
     const [posts, setPosts] = useState([]);
+    const [savedPosts, setSavedPosts] = useState([]); 
+    const [activeTab, setActiveTab] = useState('posts');
     const [pendingRequests, setPendingRequests] = useState([]); 
 
     const [isLoading, setIsLoading] = useState(true);
@@ -35,6 +37,11 @@ function Profile() {
                         setPendingRequests(reqsJson);
                     }
                 }
+                const savedRes = await fetch(`http://localhost:5000/me/posts/saved`);
+                    if (savedRes.ok) {
+                        const savedJson = await savedRes.json();
+                        setSavedPosts(savedJson);
+                    }
 
                 setProfileData(profileJson);
                 setPosts(postsJson);
@@ -114,13 +121,16 @@ function Profile() {
                 
                 <div className="profile-posts">
                     <div className="profile-section">
-                        <h3>posts</h3> 
+                        <button className={`tab-btn ${activeTab === 'posts' ? 'active' : ''}`} onClick={() => setActiveTab('posts')}>posts</button>
+                        {targetId === 'me' && (
+                            <button className={`tab-btn ${activeTab === 'saved' ? 'active' : ''}`} onClick={() => setActiveTab('saved')}>saved</button>
+                        )}
                     </div>
 
                     {isLoading ? (
                         <p>Loading posts...</p>
                     ) : (
-                        <UserGallery posts={posts} />
+                        <UserGallery posts={activeTab === 'posts' ? posts : savedPosts} />
                     )}
                 </div>
                 
