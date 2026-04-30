@@ -1,10 +1,14 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../components/auth/AuthContext";
 import "../../styles/auth.css";
+import BASE_URL from "../../api";
 
 function Login() {
     const [formData, setFormData] = useState({email: "", password: "",});
     const [status, setStatus] = useState({ error: null, success: null, loading: false });
+    const navigate = useNavigate();
+    const { login } = useAuth();
 
     const handleChange = (e) => {
         const{name, value} = e.target;
@@ -16,9 +20,10 @@ function Login() {
         setStatus({ error: null, success: null, loading: true });
 
         try {
-            const response = await fetch('http://localhost:5000/auth/login', {
+            const response = await fetch(`${BASE_URL}/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
                 body: JSON.stringify(formData)
             });
 
@@ -28,8 +33,11 @@ function Login() {
                 throw new Error(result.error || `HTTP error: Status ${response.status}`);
             }
 
+            login(result.user);
+
             console.log("login was successful", result);
             setStatus({ error: null, success: "Login successful!", loading: false });
+            navigate("/home")
         } catch (err) {
             setStatus({ error: err.message, success: null, loading: false });
         }

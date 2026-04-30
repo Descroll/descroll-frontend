@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../styles/auth.css";
+import BASE_URL from "../../api";
 
 function Signup() {
     const [formData,setFormData] = useState({username: "", email: "", password: "", agreedToTerms: false,});
     const [status, setStatus] = useState({ error: null, success: null, loading: false });
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const{name, value, type, checked} = e.target;
@@ -22,11 +24,11 @@ function Signup() {
         setStatus({ error: null, success: null, loading: true });
 
         try {
-            const response = await fetch('http://localhost:5000/auth/register', {
+            const response = await fetch(`${BASE_URL}/auth/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    username: formData.username,
+                    display_name: formData.username,
                     email: formData.email,
                     password: formData.password
                 })
@@ -40,6 +42,7 @@ function Signup() {
 
             console.log("signup was successful", result);
             setStatus({ error: null, success: "Signup successful! You can now log in.", loading: false });
+            navigate('/login')
         } catch (err) {
             setStatus({ error: err.message, success: null, loading: false });
         }

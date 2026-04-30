@@ -1,38 +1,62 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../../components/auth/AuthContext";
 import "../../styles/post.css"
 import BottomNav from "../../components/navigation/BottomNav";
+import CommentInput from "../../components/post/comments/CommentInput";
+import CommentList from "../../components/post/comments/CommentList";
+import BASE_URL from "../../api";
 
 function PostDetail() {
+    const { post_id } = useParams();
     const location = useLocation();
     const navigate = useNavigate();
-    
-    const postData = location.state || { id: 1, username: "username", caption: "just a sample caption for rn", previewUrl: "", fileType: "" };
-    const { id, username, caption, previewUrl, fileType } = postData;
+    const { currentUser } = useAuth();
+    const [post, setPost] = useState(location.state || null);
 
-    const [isSaved, setIsSaved] = useState(false);
+    const [isSaved, setIsSaved] = useState(location.state?.isSaved || false);
+    const [loading, setLoading] = useState(!location.state);
+    const [error, setError]     = useState(null);
+    const [comments, setComments] = useState([]);
 
     useEffect(() => {
-        const markAsSeen = async () => {
+        const fetchPost = async () => {
             try {
-                await fetch(`http://localhost:5000/posts/${id}/seen`, { method: 'POST' });
+                const res = await fetch(`${BASE_URL}/posts/${post_id}`, {
+                    credentials: "include",
+                });
+                if (!res.ok) throw new Error("Post not found");
+                const data = await res.json();
+                setPost(data);
+                setIsSaved(data.isSaved);
             } catch (err) {
-                console.error("Failed to mark seen:", err);
+                console.error(err);
+                setError("Could not load post.");
+            } finally {
+                setLoading(false);
             }
         };
-        markAsSeen();
-    }, [id]);
+
+        fetchPost();
+    }, [post_id]);
+
+    useEffect(() => {
+        if (!post_id) return;
+        fetch(`${BASE_URL}/posts/${post_id}/seen`, {
+            method: "POST",
+            credentials: "include",
+        }).catch((err) => console.error("Failed to mark seen:", err));
+    }, [post_id]);
 
     const handleToggleSave = async () => {
         try {
             const method = isSaved ? 'DELETE' : 'POST';
-            const res = await fetch(`http://localhost:5000/posts/${id}/save`, { method });
+            const res = await fetch(`${BASE_URL}/posts/${post_id}/save`, { method, credentials: "include" });
             
             if (!res.ok) throw new Error("Failed to toggle save");
             setIsSaved(!isSaved);
         } catch (err) {
             console.error("Error saving post:", err);
-            alert("Could not update save status.");
         }
     };
 
@@ -41,62 +65,71 @@ function PostDetail() {
         if (!confirmDelete) return;
 
         try {
-            const res = await fetch(`http://localhost:5000/me/post/${id}`, { method: 'DELETE' });
+            const res = await fetch(`${BASE_URL}/me/post/${id}`, { method: 'DELETE', credentials: "include" });
             if (!res.ok) throw new Error("Failed to delete post");
             
-            alert("Post deleted!");
-            navigate('/profile'); 
+            navigate('/profile');
         } catch (err) {
             console.error("Error deleting post:", err);
-            alert("Could not delete post.");
         }
     };
+
+    const handleCommentAdded = (newComment) => {
+        setComments((prev) => [...prev, newComment]);
+    };
+
+    if (loading) return <div className="post-detail-page"><p className="loading-text">Loading...</p></div>;
+    if (error)   return <div className="post-detail-page"><p className="error-text">{error}</p></div>;
+    if (!post)   return null;
+
+    const isOwner = currentUser && Number(currentUser.id) === Number(post.user_id);
 
     return (
         <div className="post-detail-page">
             <div className="post-detail-card">
                 <div className="post-detail-header">
-                    <Link to="/profile" className="back-btn">back</Link>
-                    <h2>post</h2>
-                    <Link to="/posts/:id/edit" state={{username, caption, previewUrl, fileType}} className="edit-btn">edit</Link>
+                    <button className="back-btn" onClick={() => navigate(-1)}>back</button>
+                    
+                    {isOwner && (
+                        <Link to={`/posts/${post_id}/edit`} state={post} className="edit-btn">edit</Link>
+                    )}
                 </div>
 
                 <div className="post-detail-body">
                     <div className="user-row">
                         <div className="post-user-info">
-                            <div className="mini-avatar"></div>
-                            <span className="post-username">{username}</span>
+                            <div className="mini-avatar">{currentUser?.avatar_url || null}</div>
+                            <span className="post-username">{currentUser?.display_name || null}</span>
                         </div>
                         
                         <div className="post-actions">
                             <button onClick={handleToggleSave} className="save-btn">
                                 {isSaved ? "unsave" : "save"}
                             </button>
-                            <button onClick={handleDeletePost} className="delete-btn">
+                            {isOwner && (
+                                <button onClick={handleDeletePost} className="delete-btn">
                                 delete
-                            </button>
+                            </button>)}
                         </div>
                     </div>
 
-                    {previewUrl && (
-                        fileType.startsWith("video/") ? (
+                    {post.media_url && (
+                        post.media_type === "video" ? (
                             <video className="post-detail-preview" controls>
-                                <source src={previewUrl} type={fileType} />
+                                <source src={post.media_url} type={video/mp4} />
                                 video type not supported
                             </video>
                         ) : (
-                            <img src={previewUrl} alt="post preview" className="post-detail-preview"/>
+                            <img src={post.media_url} alt="post preview" className="post-detail-preview"/>
                         )
                     )}
 
-                    {caption && <p className="post-detail-caption">{caption}</p>}
+                    {post.caption && <p className="post-detail-caption">{post.caption}</p>}
 
                     <div className="post-comments-section">
                         <h3>comments</h3>
-                        <div className="empty-comments">
-                            <p>no comments yet...</p>
-                            <span>comments will appear here later</span>
-                        </div>
+                        <CommentInput postId={post_id} onCommentAdded={handleCommentAdded} />
+                        <CommentList postId={post_id} newComments={comments} />
                     </div>
                 </div>
 

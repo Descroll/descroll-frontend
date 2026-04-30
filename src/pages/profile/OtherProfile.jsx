@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import BottomNav from '../../components/navigation/BottomNav';
 import './UserProfile.css';
+import BASE_URL from '../../api';
+import UserGallery from '../../components/post/UserGallery';
 
 function UserProfile() {
     const { id } = useParams();
+    const navigate = useNavigate();
 
-    const [profileData, setProfileData] = useState({ username: "Loading...", bio: "" });
+    const [profileData, setProfileData] = useState(null);
     const [posts, setPosts] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -15,21 +18,26 @@ function UserProfile() {
     const [isBlocked, setIsBlocked] = useState(false);
 
     useEffect(() => {
+        if (!id) return;
         const fetchData = async () => {
             try {
                 setLoading(true);
                 
-                const profileRes = await fetch(`http://localhost:5000/user/${id}/profile`);
+                const [profileRes, postsRes] = await Promise.all([
+                    fetch(`${BASE_URL}/user/${id}/profile`, {credentials: 'include'}),
+                    fetch(`${BASE_URL}/user/${id}/posts`, {credentials: 'include'})
+                ]);
+
                 if (!profileRes.ok) {
                     throw new Error(`HTTP error: Status ${profileRes.status}`);
                 }
-                const profileJson = await profileRes.json();
-                
-                const postsRes = await fetch(`http://localhost:5000/user/${id}/posts`);
                 if (!postsRes.ok) {
                     throw new Error(`HTTP error: Status ${postsRes.status}`);
                 }
-                const postsJson = await postsRes.json();
+                const [profileJson, postsJson] = await Promise.all([
+                    profileRes.json(),
+                    postsRes.json()
+                ])
 
                 setProfileData(profileJson);
                 setPosts(postsJson);
@@ -49,14 +57,12 @@ function UserProfile() {
             }
         };
 
-        if (id) {
             fetchData();
-        }
     }, [id]);
 
     const handleRemoveConnection = async () => {
         try {
-            const res = await fetch(`http://localhost:5000/connections/${id}`, {
+            const res = await fetch(`${BASE_URL}/connections/${id}`, {
                 method: 'DELETE',
             });
             if (!res.ok) throw new Error(`HTTP error: Status ${res.status}`);
@@ -72,7 +78,7 @@ function UserProfile() {
 
     const handleBlockUser = async () => {
         try {
-            const res = await fetch(`http://localhost:5000/users/${id}/block`, {
+            const res = await fetch(`${BASE_URL}/users/${id}/block`, {
                 method: 'POST',
             });
             if (!res.ok) throw new Error(`HTTP error: Status ${res.status}`);
@@ -87,7 +93,7 @@ function UserProfile() {
 
     const handleUnblockUser = async () => {
         try {
-            const res = await fetch(`http://localhost:5000/users/${id}/block`, {
+            const res = await fetch(`${BASE_URL}/users/${id}/block`, {
                 method: 'DELETE',
             });
             if (!res.ok) throw new Error(`HTTP error: Status ${res.status}`);
@@ -110,23 +116,25 @@ function UserProfile() {
                 <div className="profile-cover"></div>
 
                 <div className="profile-info">
-                    <div className="profile-avatar"></div>
+                    <div className="profile-avatar">{profileData?.avatar_url && (
+                        <img src={profileData.avatar_url} alt="avatar" />
+                    )}</div>
 
-                    <h2 className="profile-username">{loading ? "Loading..." : profileData.username}</h2>
-                    <p className="profile-bio">{loading ? "..." : profileData.bio}</p>
+                    <h2 className="profile-username">{loading ? "Loading..." : profileData?.username}</h2>
+                    <p className="profile-bio">{loading ? "..." : profileData?.bio}</p>
 
-                    <div className="user-profile-actions">
+                    {/*<div className="user-profile-actions">
                         <button 
-                            className="remove-btn" 
+                            className="remove-btn"
                             onClick={handleRemoveConnection}
                         >
                             remove connection
                         </button>
-                        <button className="message-btn">message</button>
+                        {/*<button className="message-btn">message</button>
                         
                         {isBlocked ? (
                             <button 
-                                className="unblock-btn" 
+                                className="unblock-btn"
                                 onClick={handleUnblockUser}
                                 style={{ backgroundColor: '#666', color: 'white' }}
                             >
@@ -141,7 +149,7 @@ function UserProfile() {
                                 block
                             </button>
                         )}
-                    </div>
+                    </div>*/}
                 </div>
 
                 <div className="profile-posts">
@@ -157,13 +165,7 @@ function UserProfile() {
                             <span>this user hasn't posted anything yet</span>
                         </div>
                     ) : (
-                        <div className="posts-grid">
-                            {posts.map((post) => (
-                                <div key={post.id} className="post-thumbnail">
-                                    {/*render post thumbnails here*/}
-                                </div>
-                            ))}
-                        </div>
+                        <UserGallery posts={posts} />
                     )}
                 </div>
 

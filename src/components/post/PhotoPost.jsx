@@ -68,10 +68,10 @@ export default function PhotoPost({ post, mode = 'feed', onClick }) {
       {post.caption && <p className="post-caption">{post.caption}</p>}
 
       <div className="post-actions">
-        <button className={`post-action-btn${liked ? ' liked' : ''}`} onClick={handleLike}>
+        {/*<button className={`post-action-btn${liked ? ' liked' : ''}`} onClick={handleLike}>
           <LikeIcon filled={liked} />
           {likeCount}
-        </button>
+        </button>*/}
         <button className="post-action-btn" onClick={onClick}>
           <CommentIcon />
           {post.commentCount ?? 0}

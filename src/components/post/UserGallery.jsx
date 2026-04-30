@@ -21,7 +21,7 @@ export default function UserGallery({ posts = [] }) {
             key: post.id,
             post,
             mode: 'grid',
-            onClick: () => navigate(`/posts/${post.id}`),
+            onClick: () => navigate(`/posts/${post.id}`, {state: post}),
         };
 
         switch (post.type) {
