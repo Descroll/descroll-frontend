@@ -53,10 +53,10 @@ export default function TextPost({ post, mode = 'feed', onClick }) {
       <p className="post-text-body">{post.text}</p>
 
       <div className="post-actions">
-        <button className={`post-action-btn${liked ? ' liked' : ''}`} onClick={handleLike}>
+        {/*<button className={`post-action-btn${liked ? ' liked' : ''}`} onClick={handleLike}>
           <LikeIcon filled={liked} />
           {likeCount}
-        </button>
+        </button>*/}
         <button className="post-action-btn" onClick={onClick}>
           <CommentIcon />
           {post.commentCount ?? 0}

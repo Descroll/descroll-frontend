@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import ThemeCard from "../ThemeCard";
-import ThemePreview from "../ThemePreview";
-import Navbar from "../components/navigation/BottomNav";
+import ThemeCard from "./Card";
+import ThemePreview from "./PreviewTheme";
+import Navbar from "../../components/navigation/BottomNav";
 import { useTheme } from "../../components/ui/ThemeContext";
 
 

@@ -1,50 +1,55 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import { useAuth } from '../../components/auth/AuthContext';
 import BottomNav from '../../components/navigation/BottomNav';
 import "../../styles/profile.css";
 import UserGallery from '../../components/post/UserGallery';
+import BASE_URL from '../../api';
 
 function Profile() {
-    const { id } = useParams(); 
-    const targetId = id || 'me'; 
+    const { id } = useParams();
+    const { currentUser } = useAuth();
+    const targetId = id || currentUser?.id;
+    const isOwnProfile = !id || Number(id) === Number(currentUser?.id);
 
-    const [profileData, setProfileData] = useState({ username: "Loading...", bio: "" });
+    const [profileData, setProfileData] = useState(null);
     const [posts, setPosts] = useState([]);
-    const [savedPosts, setSavedPosts] = useState([]); 
+    const [savedPosts, setSavedPosts] = useState([]);
     const [activeTab, setActiveTab] = useState('posts');
-    const [pendingRequests, setPendingRequests] = useState([]); 
+    const [pendingRequests, setPendingRequests] = useState([]);
 
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        if (!targetId) return;
         const fetchAllProfileData = async () => {
             try {
                 setIsLoading(true);
 
-                const profileRes = await fetch(`http://localhost:5000/user/${targetId}/profile`);
-                if (!profileRes.ok) throw new Error('Failed to fetch profile info');
-                const profileJson = await profileRes.json();
-                
-                const postsRes = await fetch(`http://localhost:5000/user/${targetId}/posts`);
-                if (!postsRes.ok) throw new Error('Failed to fetch user posts');
-                const postsJson = await postsRes.json();
+                const [profileRes, postsRes] = await Promise.all([
+                    fetch(`${BASE_URL}/user/${targetId}/profile`, { credentials: 'include' }),
+                    fetch(`${BASE_URL}/user/${targetId}/posts`,   { credentials: 'include' }),
+                ]);
 
-                if (targetId === 'me') {
-                    const reqsRes = await fetch(`http://localhost:5000/connections/${targetId}/pending`);
-                    if (reqsRes.ok) {
-                        const reqsJson = await reqsRes.json();
-                        setPendingRequests(reqsJson);
-                    }
-                }
-                const savedRes = await fetch(`http://localhost:5000/me/posts/saved`);
-                    if (savedRes.ok) {
-                        const savedJson = await savedRes.json();
-                        setSavedPosts(savedJson);
-                    }
+                if (!profileRes.ok) throw new Error('Failed to fetch profile info');
+                if (!postsRes.ok) throw new Error('Failed to fetch user posts');
+
+                const [profileJson, postsJson] = await Promise.all([
+                    profileRes.json(),
+                    postsRes.json()
+                ]);
 
                 setProfileData(profileJson);
                 setPosts(postsJson);
+
+                if (isOwnProfile) {
+                    const savedRes = await fetch(`${BASE_URL}/me/posts/saved`, {
+                        credentials: 'include',
+                    });
+                    if (savedRes.ok) setSavedPosts(await savedRes.json());
+                }
+
                 setError(null);
 
             } catch (err) {
@@ -56,12 +61,14 @@ function Profile() {
         };
 
         fetchAllProfileData();
-    }, [targetId]);
+    }, [targetId, isOwnProfile]);
+
+    if (error) return <div className="profile-page" style={{ padding: '2rem' }}>Error: {error}</div>;
 
 
     const handleAccept = async (connectionId) => {
         try {
-            const res = await fetch(`http://localhost:5000/connections/${connectionId}/accept`, {
+            const res = await fetch(`${BASE_URL}/connections/${connectionId}/accept`, {
                 method: "PATCH",
             });
             if (!res.ok) throw new Error("Failed to accept request");
@@ -75,7 +82,7 @@ function Profile() {
 
     const handleReject = async (connectionId) => {
         try {
-            const res = await fetch(`http://localhost:5000/connections/${connectionId}/reject`, {
+            const res = await fetch(`${BASE_URL}/connections/${connectionId}/reject`, {
                 method: "PATCH",
             });
             if (!res.ok) throw new Error("Failed to reject request");
@@ -93,15 +100,30 @@ function Profile() {
                 <div className="profile-cover"></div>
 
                 <div className="profile-info">
-                    <div className="profile-avatar"></div>
+                    <div className="profile-avatar">
+                        {profileData?.avatar_url && (
+                            <img src={profileData.avatar_url} alt="avatar" />
+                        )}
+                    </div>
 
                     <h2 className="profile-username">
-                        {isLoading ? "Loading..." : profileData.username}
+                        {isLoading ? "Loading..." : profileData?.display_name}
                     </h2>
 
                     <p className="profile-bio">
-                        {isLoading ? "..." : profileData.bio}
+                        {isLoading ? "..." : profileData?.bio}
                     </p>
+
+                    {isOwnProfile ? (
+                        <Link to="/profile/edit" className="edit-profile-btn">
+                        edit profile
+                        </Link>
+                    ) : (
+                        // Connection actions handled in UserProfile for other users
+                        <Link to={`/user/${targetId}`} className="connections-btn">
+                        view profile
+                        </Link>
+                    )}
                     
                     <button className="connections-btn">connections</button>
                 </div>
@@ -122,7 +144,7 @@ function Profile() {
                 <div className="profile-posts">
                     <div className="profile-section">
                         <button className={`tab-btn ${activeTab === 'posts' ? 'active' : ''}`} onClick={() => setActiveTab('posts')}>posts</button>
-                        {targetId === 'me' && (
+                        {isOwnProfile && (
                             <button className={`tab-btn ${activeTab === 'saved' ? 'active' : ''}`} onClick={() => setActiveTab('saved')}>saved</button>
                         )}
                     </div>

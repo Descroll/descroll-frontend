@@ -1,27 +1,32 @@
 import React, { useState } from 'react';
+import BASE_URL from '../../../api';
 
 // passing postId so backend knows the post to attach the comment to
 export default function CommentInput({ postId, onCommentAdded }) {
   const [commentValue, setCommentValue] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const submitComment = () => {
+  const submitComment = async () => {
     if (!commentValue.trim()) return;
     setIsSubmitting(true);
 
+    try {
+      const res = await fetch(`${BASE_URL}/posts/${postId}/comment`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ text: commentValue.trim() }),
+      });
 
-    fetch(`http://localhost:5000/posts/${postId}/comment`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: commentValue })
-    })
-      .then((res) => res.json())
-      .then((newComment) => {
-        setCommentValue('');
-        if (onCommentAdded) onCommentAdded(newComment);
-      })
-      .catch((err) => console.error("Failed to post comment", err))
-      .finally(() => setIsSubmitting(false));
+      if (!res.ok) throw new Error('Failed to post comment');
+      const newComment = await res.json();
+      setCommentValue('');
+      if (onCommentAdded) onCommentAdded(newComment);
+    } catch (err) {
+      console.error('Failed to post comment', err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleKeyDown = (e) => {
@@ -30,9 +35,9 @@ export default function CommentInput({ postId, onCommentAdded }) {
 
   return (
     <div className="comments-box">
-      <input 
+      <input
         id="comments-input"
-        type="text" 
+        type="text"
         value={commentValue}
         onChange={(e) => setCommentValue(e.target.value)}
         onKeyDown={handleKeyDown}
@@ -42,7 +47,7 @@ export default function CommentInput({ postId, onCommentAdded }) {
         onClick={submitComment} 
         disabled={!commentValue.trim() || isSubmitting}
       >
-        Post
+        {isSubmitting ? 'posting...' : 'post'}
       </button>
     </div>
   );

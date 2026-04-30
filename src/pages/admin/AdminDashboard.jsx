@@ -1,5 +1,5 @@
 import Card from "../themes/Card";
-import Navbar from "../components/navigation/BottomNav";
+import Navbar from "../../components/navigation/BottomNav";
 
 const Dashboard = () => {
   return (

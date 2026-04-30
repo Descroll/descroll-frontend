@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
+import BASE_URL from '../../api';
 import './BottomNavStyle.css';
 
 function HomeIcon({ active }) {
@@ -69,10 +70,95 @@ function LogoutIcon() {
   );
 }
 
+function ConnectionsIcon({ active }) {
+  return (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M5.931 6.936l1.275 4.249m5.607 5.609l4.251 1.275"
+        stroke={active ? '#FFAABB' : '#1a1a2e'}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        fill="none"
+      />
+      <path
+        d="M11.683 12.317l5.759 -5.759"
+        stroke={active ? '#FFAABB' : '#1a1a2e'}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        fill="none"
+      />
+      <path
+        d="M4 5.5a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0 -3 0"
+        stroke={active ? '#FFAABB' : '#1a1a2e'}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        fill="none"
+      />
+      <path
+        d="M17 5.5a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0 -3 0"
+        stroke={active ? '#FFAABB' : '#1a1a2e'}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        fill="none"
+      />
+      <path
+        d="M17 18.5a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0 -3 0"
+        stroke={active ? '#FFAABB' : '#1a1a2e'}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        fill="none"
+      />
+      <path
+        d="M4 15.5a4.5 4.5 0 1 0 9 0a4.5 4.5 0 1 0 -9 0"
+        stroke={active ? '#FFAABB' : '#1a1a2e'}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        fill="none"
+      />
+    </svg>
+  );
+}
+
+function AltConnectionsIcon({ active }) {
+  return (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M5 7a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"
+        stroke={active ? '#FFAABB' : '#1a1a2e'}
+        strokeWidth="2"
+        strokeLinecap="round"
+        fill="none"
+      />
+      <path
+        d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"
+        stroke={active ? '#FFAABB' : '#1a1a2e'}
+        strokeWidth="2"
+        strokeLinecap="round"
+        fill="none"
+      />
+      <path
+        d="M16 3.13a4 4 0 0 1 0 7.75"
+        stroke={active ? '#FFAABB' : '#1a1a2e'}
+        strokeWidth="2"
+        strokeLinecap="round"
+        fill="none"
+      />
+      <path
+        d="M21 21v-2a4 4 0 0 0 -3 -3.85"
+        stroke={active ? '#FFAABB' : '#1a1a2e'}
+        strokeWidth="2"
+        strokeLinecap="round"
+        fill="none"
+      />
+    </svg>
+  );
+}
+
 const tabs = [
-  { path: '/home',      Icon: HomeIcon    },
-  { path: '/posts/new', Icon: CreateIcon  },
-  { path: '/profile',   Icon: ProfileIcon },
+  { path: '/home',        Icon: HomeIcon          },
+  { path: '/connections', Icon: ConnectionsIcon  },
+  { path: '/posts/new',   Icon: CreateIcon        },
+  { path: '/profile',     Icon: ProfileIcon       },
 ];
 
 export default function BottomNav() {
@@ -83,7 +169,7 @@ export default function BottomNav() {
   const handleLogout = async () => {
     try {
 
-      const response = await fetch('http://localhost:5000/auth/logout', {
+      const response = await fetch(`${BASE_URL}/auth/logout`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
