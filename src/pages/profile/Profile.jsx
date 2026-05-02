@@ -4,6 +4,7 @@ import { useAuth } from '../../components/auth/AuthContext';
 import BottomNav from '../../components/navigation/BottomNav';
 import "../../styles/profile.css";
 import UserGallery from '../../components/post/UserGallery';
+import { apiFetch } from '../../api';
 
 function Profile() {
     const { id } = useParams();

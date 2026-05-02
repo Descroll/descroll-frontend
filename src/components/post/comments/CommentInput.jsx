@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { apiFetch } from '../../../api';
 
 // passing postId so backend knows the post to attach the comment to
 export default function CommentInput({ postId, onCommentAdded }) {

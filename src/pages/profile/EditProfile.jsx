@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../components/auth/AuthContext';
 import BottomNav from '../../components/navigation/BottomNav';
-import BASE_URL from '../../api';
+import { apiFetch } from '../../api';
 
 function EditProfile() {
     const navigate = useNavigate();

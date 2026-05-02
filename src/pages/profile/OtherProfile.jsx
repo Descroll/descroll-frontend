@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import BottomNav from '../../components/navigation/BottomNav';
 import './UserProfile.css';
-import BASE_URL from '../../api';
+import { apiFetch } from '../../api';
 import UserGallery from '../../components/post/UserGallery';
 
 function UserProfile() {

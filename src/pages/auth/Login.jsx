@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../components/auth/AuthContext";
 import "../../styles/auth.css";
-import BASE_URL from "../../api";
+import { apiFetch } from "../../api";
 import { tokenManager } from "../../token";
 
 function Login() {
