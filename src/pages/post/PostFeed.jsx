@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react' 
 import PostCard from "../../components/post/PostCard";
 import BottomNav from "../../components/navigation/BottomNav";
-import BASE_URL from '../../api';
+import { apiFetch } from '../../api';
 
 const LIMIT = 10;
 

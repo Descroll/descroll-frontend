@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../styles/auth.css";
-import BASE_URL from "../../api";
+import { apiFetch } from "../../api";
 
 function Signup() {
     const [formData,setFormData] = useState({username: "", email: "", password: "", agreedToTerms: false,});

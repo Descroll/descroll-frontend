@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import BASE_URL from '../../api';
+import { apiFetch } from '../../api';
 import './BottomNavStyle.css';
 
 function HomeIcon({ active }) {
