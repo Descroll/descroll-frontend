@@ -1,6 +1,7 @@
 import { useState } from "react";
 import BottomNav from "../../components/navigation/BottomNav";
 import "../../styles/search.css";
+import { apiFetch } from "../../api";
 
 function SearchUsers() {
     const [users, setUsers] = useState([]);

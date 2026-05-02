@@ -5,7 +5,7 @@ import "../../styles/post.css"
 import BottomNav from "../../components/navigation/BottomNav";
 import CommentInput from "../../components/post/comments/CommentInput";
 import CommentList from "../../components/post/comments/CommentList";
-import BASE_URL from "../../api";
+import { apiFetch } from "../../api";
 
 function PostDetail() {
     const { post_id } = useParams();

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { apiFetch } from '../../../api';
 
 const Comment = ({ postId, comment, onReplyAdded }) => {
   const [showReplyBox, setShowReplyBox] = useState(false);

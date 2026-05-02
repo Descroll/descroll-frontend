@@ -4,7 +4,7 @@ import AcceptButton from "../../components/ui/AcceptButton";
 import RejectButton from "../../components/ui/RejectButton";
 import BottomNav from "../../components/navigation/BottomNav";
 import usePagination from "../../components/post/usePagination";
-import BASE_URL from "../../api";
+import { apiFetch } from "../../api";
 
 const ConnectionsPage = () => {
   const [activeTab, setActiveTab] = useState("requests");

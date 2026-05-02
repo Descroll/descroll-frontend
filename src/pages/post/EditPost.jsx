@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation, useParams } from "react-router-dom";
 import { useAuth } from "../../components/auth/AuthContext";
 import "../../styles/post.css";
 import BottomNav from "../../components/navigation/BottomNav";
-import BASE_URL from "../../api";
+import { apiFetch } from "../../api";
 
 function EditPost() {
     const { currentUser } = useAuth();
