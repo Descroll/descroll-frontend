@@ -24,9 +24,8 @@ function Signup() {
         setStatus({ error: null, success: null, loading: true });
 
         try {
-            const response = await fetch(`${BASE_URL}/auth/register`, {
+            const response = await apiFetch(`/auth/register`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     display_name: formData.username,
                     email: formData.email,

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import BASE_URL from '../../../api';
 
 // passing postId so backend knows the post to attach the comment to
 export default function CommentInput({ postId, onCommentAdded }) {
@@ -11,10 +10,8 @@ export default function CommentInput({ postId, onCommentAdded }) {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch(`${BASE_URL}/posts/${postId}/comment`, {
+      const res = await apiFetch(`/posts/${postId}/comment`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
         body: JSON.stringify({ text: commentValue.trim() }),
       });
 

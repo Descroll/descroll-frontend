@@ -22,9 +22,7 @@ function PostDetail() {
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const res = await fetch(`${BASE_URL}/posts/${post_id}`, {
-                    credentials: "include",
-                });
+                const res = await apiFetch(`/posts/${post_id}`);
                 if (!res.ok) throw new Error("Post not found");
                 const data = await res.json();
                 setPost(data);
@@ -42,16 +40,15 @@ function PostDetail() {
 
     useEffect(() => {
         if (!post_id) return;
-        fetch(`${BASE_URL}/posts/${post_id}/seen`, {
+        apiFetch(`/posts/${post_id}/seen`, {
             method: "POST",
-            credentials: "include",
         }).catch((err) => console.error("Failed to mark seen:", err));
     }, [post_id]);
 
     const handleToggleSave = async () => {
         try {
             const method = isSaved ? 'DELETE' : 'POST';
-            const res = await fetch(`${BASE_URL}/posts/${post_id}/save`, { method, credentials: "include" });
+            const res = await apiFetch(`/posts/${post_id}/save`, method);
             
             if (!res.ok) throw new Error("Failed to toggle save");
             setIsSaved(!isSaved);
@@ -65,7 +62,7 @@ function PostDetail() {
         if (!confirmDelete) return;
 
         try {
-            const res = await fetch(`${BASE_URL}/me/post/${id}`, { method: 'DELETE', credentials: "include" });
+            const res = await apiFetch(`/me/post/${id}`, { method: 'DELETE'});
             if (!res.ok) throw new Error("Failed to delete post");
             
             navigate('/profile');

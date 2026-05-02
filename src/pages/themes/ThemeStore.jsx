@@ -17,7 +17,7 @@ const ThemeStore = () => {
   useEffect(() => {
   const fetchThemes = async () => {
     try {
-      const res = await fetch("http://localhost:5000/themes");
+      const res = await apiFetch("/themes");
       if (res.ok) setThemes(await res.json());
     } catch (err) {
       console.error(err);
@@ -30,9 +30,8 @@ const ThemeStore = () => {
 
   const handlePurchase = async (themeId, themeName) => {
     try {
-      const res = await fetch("http://localhost:5000/themes/buy", {
+      const res = await apiFetch("/themes/buy", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_id: CURRENT_USER_ID, theme_id: themeId }),
       });
       if (res.ok) {
