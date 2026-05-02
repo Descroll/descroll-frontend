@@ -6,7 +6,7 @@ import { apiFetch } from "../../api";
 import { tokenManager } from "../../token";
 
 function Login() {
-    const [formData, setFormData] = useState({email: "", password: "",});
+    const [formData, setFormData] = useState({user_input: "", password: "",});
     const [status, setStatus] = useState({ error: null, success: null, loading: false });
     const navigate = useNavigate();
     const { login } = useAuth();
@@ -17,7 +17,7 @@ function Login() {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault(); 
+        e.preventDefault();
         setStatus({ error: null, success: null, loading: true });
 
         try {
@@ -59,7 +59,7 @@ function Login() {
                     {status.error && <div style={{ color: "red", marginBottom: "10px" }}>{status.error}</div>}
                     {status.success && <div style={{ color: "green", marginBottom: "10px" }}>{status.success}</div>}
 
-                    <input id="login-email" name="email" className="auth-input" type = "email" placeholder = "Email" value={formData.email} onChange={handleChange} />
+                    <input id="login-user-input" name="user_input" className="auth-input" type = "text" placeholder = "Email or display name" value={formData.user_input} onChange={handleChange} />
                     <input id="login-password" name="password" className="auth-input" type = "password" placeholder = "Password" value={formData.password} onChange={handleChange} />
 
                     <div className="forgot-row">
