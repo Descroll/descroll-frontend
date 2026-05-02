@@ -17,7 +17,7 @@ function EditProfile() {
 
     // Pre-fill with current profile data
     useEffect(() => {
-        fetch(`${BASE_URL}/user/${currentUser.id}/profile`, { credentials: 'include' })
+        apiFetch(`/user/${currentUser.id}/profile`)
         .then((res) => res.json())
         .then((data) => {
             setDisplayName(data.display_name || '');
@@ -44,10 +44,7 @@ function EditProfile() {
 
         // Upload new avatar to R2 if one was selected
         if (avatarFile) {
-            const urlRes = await fetch(
-            `${BASE_URL}/me/upload-url?filename=${encodeURIComponent(avatarFile.name)}&filetype=${encodeURIComponent(avatarFile.type)}`,
-            { credentials: 'include' }
-            );
+            const urlRes = await apiFetch(`/me/upload-url?filename=${encodeURIComponent(avatarFile.name)}&filetype=${encodeURIComponent(avatarFile.type)}`);
             if (!urlRes.ok) throw new Error('Failed to get upload URL');
             const { uploadUrl, mediaUrl } = await urlRes.json();
 
@@ -60,10 +57,8 @@ function EditProfile() {
             avatar_url = mediaUrl;
         }
 
-        const res = await fetch(`${BASE_URL}/me/profile`, {
+        const res = await apiFetch(`/me/profile`, {
             method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
             body: JSON.stringify({
             display_name: displayName.trim() || null,
             bio:          bio.trim() || null,

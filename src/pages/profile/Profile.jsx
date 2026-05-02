@@ -4,7 +4,6 @@ import { useAuth } from '../../components/auth/AuthContext';
 import BottomNav from '../../components/navigation/BottomNav';
 import "../../styles/profile.css";
 import UserGallery from '../../components/post/UserGallery';
-import BASE_URL from '../../api';
 
 function Profile() {
     const { id } = useParams();
@@ -28,8 +27,8 @@ function Profile() {
                 setIsLoading(true);
 
                 const [profileRes, postsRes] = await Promise.all([
-                    fetch(`${BASE_URL}/user/${targetId}/profile`, { credentials: 'include' }),
-                    fetch(`${BASE_URL}/user/${targetId}/posts`,   { credentials: 'include' }),
+                    apiFetch(`/user/${targetId}/profile`),
+                    apiFetch(`/user/${targetId}/posts`),
                 ]);
 
                 if (!profileRes.ok) throw new Error('Failed to fetch profile info');
@@ -44,9 +43,7 @@ function Profile() {
                 setPosts(postsJson);
 
                 if (isOwnProfile) {
-                    const savedRes = await fetch(`${BASE_URL}/me/posts/saved`, {
-                        credentials: 'include',
-                    });
+                    const savedRes = await apiFetch(`/me/posts/saved`);
                     if (savedRes.ok) setSavedPosts(await savedRes.json());
                 }
 
@@ -68,7 +65,7 @@ function Profile() {
 
     const handleAccept = async (connectionId) => {
         try {
-            const res = await fetch(`${BASE_URL}/connections/${connectionId}/accept`, {
+            const res = await apiFetch(`/connections/${connectionId}/accept`, {
                 method: "PATCH",
             });
             if (!res.ok) throw new Error("Failed to accept request");
@@ -82,7 +79,7 @@ function Profile() {
 
     const handleReject = async (connectionId) => {
         try {
-            const res = await fetch(`${BASE_URL}/connections/${connectionId}/reject`, {
+            const res = await apiFetch(`/connections/${connectionId}/reject`, {
                 method: "PATCH",
             });
             if (!res.ok) throw new Error("Failed to reject request");

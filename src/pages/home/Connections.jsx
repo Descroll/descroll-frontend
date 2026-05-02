@@ -21,9 +21,7 @@ const ConnectionsPage = () => {
   const fetchPending = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${BASE_URL}/connections/pending`, {
-        credentials: "include",
-      });
+      const res = await apiFetch(`/connections/pending`);
       if (!res.ok) throw new Error("Failed to load requests");
       const data = await res.json();
       setRequests(data);
@@ -38,9 +36,7 @@ const ConnectionsPage = () => {
   const fetchConnections = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${BASE_URL}/connections`, {
-        credentials: "include",
-      });
+      const res = await apiFetch(`/connections`);
       if (!res.ok) throw new Error("Failed to load connections");
       const data = await res.json();
       setConnections(data);
@@ -70,10 +66,9 @@ const ConnectionsPage = () => {
     try {
       setIsSearching(true);
       setHasSearched(true);
-      console.log("fetching:", `${BASE_URL}/connections/search?q=${encodeURIComponent(searchTerm)}`);
-      const res = await fetch(
-        `${BASE_URL}/connections/search?q=${encodeURIComponent(searchTerm)}`,
-        { credentials: "include" }
+      //console.log("fetching:", `/connections/search?q=${encodeURIComponent(searchTerm)}`);
+      const res = await apiFetch(
+        `/connections/search?q=${encodeURIComponent(searchTerm)}`
       );
       console.log("response status:", res.status);
       const data = await res.json();
@@ -100,10 +95,8 @@ const ConnectionsPage = () => {
 
   const handleSendRequest = async (receiverId) => {
     try {
-      const res = await fetch(`${BASE_URL}/connections/request`, {
+      const res = await apiFetch(`/connections/request`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
         body: JSON.stringify({ receiver_id: receiverId }),
       });
       if (!res.ok) throw new Error("Failed to send request");
@@ -119,9 +112,8 @@ const ConnectionsPage = () => {
   const handleAccept = async (requestId) => {
     console.log("handleAccept called with:", requestId);
     try {
-      const res = await fetch(`${BASE_URL}/connections/${requestId}/accept`, {
-        method: "PATCH",
-        credentials: "include",
+      const res = await apiFetch(`/connections/${requestId}/accept`, {
+        method: "PATCH"
       });
       if (!res.ok) throw new Error("Failed to accept");
       setRequests((prev) => prev.filter((r) => r.request_id !== requestId));
@@ -132,9 +124,8 @@ const ConnectionsPage = () => {
 
   const handleReject = async (requestId) => {
     try {
-      const res = await fetch(`${BASE_URL}/connections/${requestId}/reject`, {
-        method: "PATCH",
-        credentials: "include",
+      const res = await apiFetch(`/connections/${requestId}/reject`, {
+        method: "PATCH"
       });
       if (!res.ok) throw new Error("Failed to reject");
       setRequests((prev) => prev.filter((r) => r.request_id !== requestId));
@@ -145,9 +136,8 @@ const ConnectionsPage = () => {
 
   const handleRemoveConnection = async (connectionId) => {
     try {
-      const res = await fetch(`${BASE_URL}/connections/${connectionId}`, {
-        method: "DELETE",
-        credentials: "include",
+      const res = await apiFetch(`/connections/${connectionId}`, {
+        method: "DELETE"
       });
       if (!res.ok) throw new Error("Failed to remove");
       setConnections((prev) => prev.filter((c) => c.connection_id !== connectionId));

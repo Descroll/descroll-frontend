@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../components/auth/AuthContext";
 import "../../styles/auth.css";
 import BASE_URL from "../../api";
+import { tokenManager } from "../../token";
 
 function Login() {
     const [formData, setFormData] = useState({email: "", password: "",});
@@ -20,18 +21,18 @@ function Login() {
         setStatus({ error: null, success: null, loading: true });
 
         try {
-            const response = await fetch(`${BASE_URL}/auth/login`, {
+            const response = await apiFetch(`/auth/login`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
                 body: JSON.stringify(formData)
             });
 
             const result = await response.json();
 
             if (!response.ok) {
-                throw new Error(result.error || `HTTP error: Status ${response.status}`);
+                throw new Error(result.error || `Login failed`);
             }
+
+            tokenManager.set(result.token);
 
             login(result.user);
 

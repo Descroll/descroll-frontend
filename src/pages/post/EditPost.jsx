@@ -45,9 +45,8 @@ function EditPost() {
 
             // If a new file was selected, upload it to R2 first
             if (file) {
-                const urlRes = await fetch(
-                    `${BASE_URL}/me/upload-url?filename=${encodeURIComponent(file.name)}&filetype=${encodeURIComponent(file.type)}`,
-                    { credentials: "include" }
+                const urlRes = await apiFetch(
+                    `/me/upload-url?filename=${encodeURIComponent(file.name)}&filetype=${encodeURIComponent(file.type)}`
                 );
                 if (!urlRes.ok) throw new Error("Failed to get upload URL");
                 const { uploadUrl, mediaUrl } = await urlRes.json();
@@ -63,10 +62,8 @@ function EditPost() {
                 media_type = file.type.startsWith("video/") ? "video" : "image";
             }
 
-            const res = await fetch(`${BASE_URL}/me/post/${post_id}`, {
+            const res = await apiFetch(`/me/post/${post_id}`, {
                 method: "PATCH",
-                headers: { "Content-Type": "application/json" },
-                credentials: "include",
                 body: JSON.stringify({
                     caption: text.trim() || null,
                     media_url,

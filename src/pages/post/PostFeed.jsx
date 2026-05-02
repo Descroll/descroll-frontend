@@ -23,9 +23,8 @@ export default function Feed() {
     // Fire-and-forget — mark seen in the background, don't block UI
     await Promise.allSettled(
       unseenIds.map((id) =>
-        fetch(`${BASE_URL}/posts/${id}/seen`, {
+        apiFetch(`/posts/${id}/seen`, {
           method: "POST",
-          credentials: "include",
         })
       )
     );
@@ -40,10 +39,10 @@ export default function Feed() {
 
     try {
       const url = currentCursor
-        ? `${BASE_URL}/feed?limit=${LIMIT}&cursor=${currentCursor}`
-        : `${BASE_URL}/feed?limit=${LIMIT}`;
+        ? `/feed?limit=${LIMIT}&cursor=${currentCursor}`
+        : `/feed?limit=${LIMIT}`;
 
-      const res = await fetch(url, { credentials: "include" });
+      const res = await apiFetch(url);
       if (!res.ok) throw new Error("Failed to fetch feed");
 
       const { posts: newPosts, nextCursor } = await res.json();

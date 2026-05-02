@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import BASE_URL from '../../../api';
 
 const Comment = ({ postId, comment, onReplyAdded }) => {
   const [showReplyBox, setShowReplyBox] = useState(false);
@@ -11,12 +10,10 @@ const Comment = ({ postId, comment, onReplyAdded }) => {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch(
-        `${BASE_URL}/posts/${postId}/comments/${comment.comment_id}/reply`,
+      const res = await apiFetch(
+        `/posts/${postId}/comments/${comment.comment_id}/reply`,
         {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
           body: JSON.stringify({ text: replyText.trim() }),
         }
       );
@@ -84,9 +81,7 @@ export default function CommentList({ postId, newComments = [] }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/posts/${postId}/comments`, {
-      credentials: 'include'
-    })
+    apiFetch(`/posts/${postId}/comments`)
       .then((res) => res.json())
       .then((data) => {
         setComments(data)

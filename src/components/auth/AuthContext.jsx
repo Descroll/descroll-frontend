@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import BASE_URL from '../../api';
 
 const AuthContext = createContext(null);
 
@@ -8,22 +7,34 @@ export function AuthProvider({ children }) {
     const [authLoading, setAuthLoading] = useState(true);
 
     useEffect(() => {
-        fetch(`${BASE_URL}/me/user`, { credentials: "include" })
+        const token = localStorage.getItem('descroll_token');
+        if(!token){
+            setAuthLoading(false);
+            return;
+        }
+
+        apiFetch('/me/user')
         .then((res) => {
             if (!res.ok) throw new Error("Not authenticated");
             return res.json();
         })
         .then((data) => setCurrentUser(data))
-        .catch(() => setCurrentUser(null))
+        .catch(() => {
+            localStorage.removeItem('descroll_token');
+            setCurrentUser(null);
+        })
         .finally(() => setAuthLoading(false));
     }, []);
 
     const login = (user) => setCurrentUser(user);
-    const logout = () => setCurrentUser(null);
+    const logout = () => {
+        localStorage.removeItem('descroll_token');
+        setCurrentUser(null);
+    };
 
     return (
         <AuthContext.Provider value={{ currentUser, authLoading, login, logout }}>
-        {children}
+            {children}
         </AuthContext.Provider>
     );
 }

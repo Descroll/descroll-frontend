@@ -1,7 +1,6 @@
 import { useState } from "react";
 import BottomNav from "../../components/navigation/BottomNav";
 import "../../styles/search.css";
-import BASE_URL from "../../api";
 
 function SearchUsers() {
     const [users, setUsers] = useState([]);
@@ -15,7 +14,7 @@ function SearchUsers() {
         }
         try {
             setIsSearching(true);
-            const res = await fetch(`${BASE_URL}/users/search?q=${searchTerm}`);
+            const res = await apiFetch(`/users/search?q=${searchTerm}`);
             if (!res.ok) throw new Error("Search failed");
             const data = await res.json();
             setUsers(data);
@@ -32,9 +31,8 @@ function SearchUsers() {
 
     const handleStatusClick = async (receiverId) => {
         try {
-            const res = await fetch(`${BASE_URL}/connections/request`, {
+            const res = await apiFetch(`/connections/request`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ receiver_id: receiverId })
             });
 
