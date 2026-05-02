@@ -239,10 +239,10 @@ const ConnectionsPage = () => {
                 requests
               </button>
             </div>
- 
+
             {loading && <p className="loading-text">Loading...</p>}
             {error   && <p className="error-text">{error}</p>}
- 
+
             {/* Requests tab */}
             {!loading && activeTab === "requests" && (
               <>
@@ -253,7 +253,7 @@ const ConnectionsPage = () => {
                     reqData.map((user) => (
                       <div className="request-card" key={user.request_id}>
                         <div className="user-info">
-                          <div className="avatar">👤</div>
+                          <div className="avatar"><img src={user.avatar_url} /></div>
                           <div>
                             <div className="display_name">{user.requester_display_name}</div>
                             <div className="bio">{user.requester_bio}</div>
@@ -287,7 +287,7 @@ const ConnectionsPage = () => {
                     connData.map((conn) => (
                       <div className="request-card" key={conn.connection_id}>
                         <div className="user-info">
-                          <div className="avatar">👤</div>
+                          <div className="avatar"><img src={conn.avatar_url} /></div>
                           <div>
                             <div className="display_name">{conn.connected_display_name}</div>
                             <div className="bio">{conn.connected_bio}</div>

@@ -1,25 +1,26 @@
 import { useState, useEffect } from "react";
-import ThemeCard from "./Card";
+import ThemeCard from "./ThemeCard";
 import ThemePreview from "./PreviewTheme";
-import Navbar from "../../components/navigation/BottomNav";
 import { useTheme } from "../../components/ui/ThemeContext";
 import { apiFetch } from "../../api";
+import BottomNav from "../../components/navigation/BottomNav";
 
 const ThemeStore = () => {
-  const [selectedTheme, setSelectedTheme] = useState(null);
-
   const [themes, setThemes] = useState([]);
+  const [selectedTheme, setSelectedTheme] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { applyTheme } = useTheme();
-  const CURRENT_USER_ID = 1; // Temporary until auth is wired
 
   useEffect(() => {
   const fetchThemes = async () => {
     try {
       const res = await apiFetch("/themes");
-      if (res.ok) setThemes(await res.json());
+      if (!res.ok) throw new Error("Failed to load themes");
+      setThemes(await res.json());
     } catch (err) {
       console.error(err);
+      setError("Could not load themes.");
     } finally {
       setIsLoading(false);
     }
@@ -27,18 +28,47 @@ const ThemeStore = () => {
   fetchThemes();
 }, []);
 
-  const handlePurchase = async (themeId, themeName) => {
+  const handlePurchase = async (themeId) => {
     try {
-      const res = await apiFetch("/themes/buy", {
-        method: "POST",
-        body: JSON.stringify({ user_id: CURRENT_USER_ID, theme_id: themeId }),
+      const res = await apiFetch(`/themes/${themeId}/purchase`, {
+        method: "POST"
       });
-      if (res.ok) {
-        alert(`${themeName} purchased!`);
-        applyTheme(themeName);
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || "Purchase failed");
       }
+
+      setThemes((prev) => 
+      prev.map((t) => (t.id === themeId ? {...t, purchases: true} : t))
+    );
     } catch (err) {
       console.error(err);
+      alert(err.message);
+    }
+  };
+
+  const handleApply = async (themeId) => {
+    try {
+      const res = await apiFetch(`/me/themes/${themeId}/apply`, {
+        method: "PATCH",
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || "Failed to apply theme");
+      }
+      const result = await res.json();
+
+      applyTheme(result);
+
+      setThemes((prev) =>
+        prev.map((t) => ({
+          ...t,
+          active: t.id === themeId,
+        }))
+      );
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
     }
   };
 
@@ -46,6 +76,8 @@ const ThemeStore = () => {
     <div className="phone">
       <div>
         <div className="header">Themes</div>
+
+        {error && <p style={{color:"red", padding: "10px"}}>{error}</p>}
 
         {isLoading ? (
           <p>Loading storefront...</p>
@@ -55,21 +87,24 @@ const ThemeStore = () => {
               key={theme.id}
               theme={theme}
               onPreview={setSelectedTheme}
-              onBuy={() => handlePurchase(theme.id, theme.name)}
+              onPurchase={() => handlePurchase(theme.id)}
+              onApply={() => handleApply(theme.id)}
             />
           ))
         )}
 
-        <button className="button">
+        {/*<button className="button">
           View More...
-        </button>
+        </button>*/}
       </div>
 
-      <Navbar />
+      <BottomNav />
 
       <ThemePreview
         theme={selectedTheme}
         onClose={() => setSelectedTheme(null)}
+        onPurchase={handlePurchase}
+        onApply={handleApply}
       />
     </div>
   );

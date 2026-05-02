@@ -62,7 +62,7 @@ function PostDetail() {
         if (!confirmDelete) return;
 
         try {
-            const res = await apiFetch(`/me/post/${id}`, { method: 'DELETE'});
+            const res = await apiFetch(`/me/post/${post_id}`, { method: 'DELETE'});
             if (!res.ok) throw new Error("Failed to delete post");
             
             navigate('/profile');

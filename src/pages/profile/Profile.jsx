@@ -16,8 +16,6 @@ function Profile() {
     const [posts, setPosts] = useState([]);
     const [savedPosts, setSavedPosts] = useState([]);
     const [activeTab, setActiveTab] = useState('posts');
-    const [pendingRequests, setPendingRequests] = useState([]);
-
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -63,39 +61,16 @@ function Profile() {
 
     if (error) return <div className="profile-page" style={{ padding: '2rem' }}>Error: {error}</div>;
 
-
-    const handleAccept = async (connectionId) => {
-        try {
-            const res = await apiFetch(`/connections/${connectionId}/accept`, {
-                method: "PATCH",
-            });
-            if (!res.ok) throw new Error("Failed to accept request");
-            
-            setPendingRequests((prev) => prev.filter(req => req.id !== connectionId));
-        } catch (err) {
-            console.error(err);
-        }
-    };
-
-
-    const handleReject = async (connectionId) => {
-        try {
-            const res = await apiFetch(`/connections/${connectionId}/reject`, {
-                method: "PATCH",
-            });
-            if (!res.ok) throw new Error("Failed to reject request");
-            
-            setPendingRequests((prev) => prev.filter(req => req.id !== connectionId));
-        } catch (err) {
-            console.error(err);
-        }
-    };
-
-    if (error) return <div className="profile-page" style={{padding: '2rem'}}>Error: {error}</div>;
     return (
         <div className="profile-page">
             <div className="profile-card">
                 <div className="profile-cover"></div>
+
+                {isOwnProfile && (
+                    <Link to="/settings" className="settings-icon-btn">
+                        ⚙️
+                    </Link>
+                )}
 
                 <div className="profile-info">
                     <div className="profile-avatar">
@@ -117,27 +92,11 @@ function Profile() {
                         edit profile
                         </Link>
                     ) : (
-                        // Connection actions handled in UserProfile for other users
                         <Link to={`/user/${targetId}`} className="connections-btn">
                         view profile
                         </Link>
                     )}
-                    
-                    <button className="connections-btn">connections</button>
                 </div>
-
-                {targetId === 'me' && pendingRequests.length > 0 && (
-                    <div>
-                        <h3>Pending Requests</h3>
-                        {pendingRequests.map((req) => (
-                            <div key={req.id}>
-                                <span>{req.requester_name || 'A user'}</span>
-                                <button type="button" onClick={() => handleAccept(req.id)}>Accept</button>
-                                <button type="button" onClick={() => handleReject(req.id)}>Reject</button>
-                            </div>
-                        ))}
-                    </div>
-                )}
                 
                 <div className="profile-posts">
                     <div className="profile-section">

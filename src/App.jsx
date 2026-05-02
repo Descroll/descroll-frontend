@@ -14,6 +14,7 @@ import SearchUsers from './pages/home/SearchUsers';
 import ConnectionsPage from './pages/home/Connections';
 import ThemeStore from './pages/themes/ThemeStore';
 import Dashboard from './pages/admin/AdminDashboard';
+import Settings from './pages/profile/Settings';
 
 const HIDE_NAV = ['/login', '/signup'];
 
@@ -37,6 +38,7 @@ function AppContent() {
         <Route path="/connections" element={<ConnectionsPage />} />
         <Route path="/themes" element={<ThemeStore />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/settings" element={<Settings />} />
         <Route path="/" element={<Navigate to="/signup" replace />} />
         <Route path="*" element={<Navigate to="/signup" replace />} />
       </Routes>
