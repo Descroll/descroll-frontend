@@ -169,16 +169,13 @@ export default function BottomNav() {
   const handleLogout = async () => {
     try {
 
-      const response = await fetch(`${BASE_URL}/auth/logout`, {
+      const response = await apiFetch(`/auth/logout`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
       });
 
       if (response.ok) {
 
-        navigate('/login'); 
+        navigate('/login');
       } else {
         console.error('Logout failed on the backend.');
       }

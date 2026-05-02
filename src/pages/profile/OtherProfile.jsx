@@ -24,8 +24,8 @@ function UserProfile() {
                 setLoading(true);
                 
                 const [profileRes, postsRes] = await Promise.all([
-                    fetch(`${BASE_URL}/user/${id}/profile`, {credentials: 'include'}),
-                    fetch(`${BASE_URL}/user/${id}/posts`, {credentials: 'include'})
+                    apiFetch(`/user/${id}/profile`),
+                    apiFetch(`/user/${id}/posts`)
                 ]);
 
                 if (!profileRes.ok) {
@@ -62,7 +62,7 @@ function UserProfile() {
 
     const handleRemoveConnection = async () => {
         try {
-            const res = await fetch(`${BASE_URL}/connections/${id}`, {
+            const res = await apiFetch(`/connections/${id}`, {
                 method: 'DELETE',
             });
             if (!res.ok) throw new Error(`HTTP error: Status ${res.status}`);
@@ -78,7 +78,7 @@ function UserProfile() {
 
     const handleBlockUser = async () => {
         try {
-            const res = await fetch(`${BASE_URL}/users/${id}/block`, {
+            const res = await apiFetch(`/users/${id}/block`, {
                 method: 'POST',
             });
             if (!res.ok) throw new Error(`HTTP error: Status ${res.status}`);
@@ -93,7 +93,7 @@ function UserProfile() {
 
     const handleUnblockUser = async () => {
         try {
-            const res = await fetch(`${BASE_URL}/users/${id}/block`, {
+            const res = await apiFetch(`/users/${id}/block`, {
                 method: 'DELETE',
             });
             if (!res.ok) throw new Error(`HTTP error: Status ${res.status}`);

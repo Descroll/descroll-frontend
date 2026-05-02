@@ -2,10 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../components/auth/AuthContext";
 import BottomNav from "../../components/navigation/BottomNav";
-import BASE_URL from "../../api";
 
 function CreatePost() {
-    const username = "my username";
     const navigate = useNavigate();
     const { currentUser } = useAuth();
 
@@ -38,9 +36,8 @@ function CreatePost() {
 
             // Step 1: If there's a file, get a presigned URL from the backend and upload to R2
             if (file) {
-                const urlRes = await fetch(
-                    `${BASE_URL}/me/upload-url?filename=${encodeURIComponent(file.name)}&filetype=${encodeURIComponent(file.type)}`,
-                    { credentials: "include" }
+                const urlRes = await apiFetch(
+                    `/me/upload-url?filename=${encodeURIComponent(file.name)}&filetype=${encodeURIComponent(file.type)}`
                 );
                 if (!urlRes.ok) throw new Error("Failed to get upload URL");
                 const { uploadUrl, mediaUrl } = await urlRes.json();
@@ -58,10 +55,8 @@ function CreatePost() {
             }
 
             // Step 3: Create the post with the CDN URL (or just caption if text-only)
-            const postRes = await fetch(`${BASE_URL}/me/post`, {
+            const postRes = await apiFetch(`/me/post`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                credentials: "include",
                 body: JSON.stringify({
                     caption:    text.trim() || null,
                     media_url,
