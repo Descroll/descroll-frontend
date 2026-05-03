@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import BottomNav from "../../components/navigation/BottomNav";
 import "../../styles/search.css";
 import { apiFetch } from "../../api";
@@ -82,7 +83,11 @@ function SearchUsers() {
                                 <div className="search-avatar"></div>
 
                                 <div className="user-text">
-                                    <h3>{user.username}</h3>
+                                                                        <h3>
+                                                                            <Link className="user-name-link" to={`/users/${user.id}`}>
+                                                                                {user.username}
+                                                                            </Link>
+                                                                        </h3>
                                     <p>{user.bio}</p>
                                 </div>
                                 </div>
