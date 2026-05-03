@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../components/auth/AuthContext";
 import "../../styles/post.css"
+import "../../App.css";
 import BottomNav from "../../components/navigation/BottomNav";
 import CommentInput from "../../components/post/comments/CommentInput";
 import CommentList from "../../components/post/comments/CommentList";

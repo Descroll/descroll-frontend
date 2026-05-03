@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate, useLocation, useParams } from "react-router-dom";
 import { useAuth } from "../../components/auth/AuthContext";
 import "../../styles/post.css";
+import "../../App.css";
 import BottomNav from "../../components/navigation/BottomNav";
 import { apiFetch } from "../../api";
 
@@ -21,6 +22,8 @@ function EditPost() {
     const [fileType, setFileType] = useState(post.media_type || "");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState(null);
+
+    const [showDeletePostModal, setShowDeletePostModal] = useState(false);
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
@@ -89,7 +92,12 @@ function EditPost() {
                     <button className="back-btn" onClick={() => navigate(-1)}>back</button>
 
                     <h2>edit post</h2>
-                    <button className="post-btn" disabled={!isPostEnabled} onClick={handleSave}>{isSubmitting ? "saving..." : "save"}</button>
+
+                    <div className="edit-post-actions">
+                        <button className="remove-btn" type="button" onClick={() => setShowDeletePostModal(true)}>delete</button>
+                        <button className="post-btn" disabled={!isPostEnabled} onClick={handleSave}>{isSubmitting ? "saving..." : "save"}</button>
+                    </div>
+
 
                 </div>
 
@@ -127,7 +135,23 @@ function EditPost() {
                         </label>
 
                     </div>
-                </div>  
+                </div> 
+
+                {showDeletePostModal && (
+                    <div className='modal-overlay'>
+                        <div className='modal-card'>
+                            <h3>delete post</h3>
+                            <p>are you sure that you want to delete this post?</p>
+                            <p className='warning-text'>this action can NOT be undone.</p>
+
+                            <div className='modal-actions'>
+                                <button className='cancel-btn' onClick={() => setShowDeletePostModal(false)}>cancel</button>
+
+                                <button className='danger-btn' onClick={() => console.log("deleting post...")}>delete</button>
+                            </div>
+                        </div>
+                    </div>
+                )} 
 
               <BottomNav />
 
