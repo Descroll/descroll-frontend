@@ -62,6 +62,10 @@ function Login() {
                     <input id="login-user-input" name="user_input" className="auth-input" type = "text" placeholder = "Email or display name" value={formData.user_input} onChange={handleChange} />
                     <input id="login-password" name="password" className="auth-input" type = "password" placeholder = "Password" value={formData.password} onChange={handleChange} />
 
+                    <div className="forgot-row">
+                        <span className="forgot-link">Forgot password?</span>
+                    </div>
+
                     <button className="primary-btn" type="submit" disabled={status.loading}> 
                         {status.loading ? "Loading..." : "Login"} 
                     </button>
