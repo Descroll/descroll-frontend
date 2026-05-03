@@ -1,296 +1,299 @@
-/* Start of styling for Signup/Login pages */
-.auth-container{
+/* ─── app.css — Legacy combined file ─── */
+/* If this file is still imported anywhere, it now uses CSS variables correctly. */
+/* Prefer importing the split files (auth.css, profile.css, etc.) instead.      */
 
+:root {
+  --color-bg: #f0f0f0;
+  --color-card: #e6e6e6;
+  --color-accent: #7f85ff;
+  --color-text: #1a1a1a;
+  --color-text-secondary: #555555;
+  --color-border: #cccccc;
+}
+
+/* ─── Auth Pages ─── */
+
+.auth-container {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg,#f5f5f7,#eef0ff);
+  background: var(--color-bg);
   padding-top: 16px;
-
 }
-.auth-card{
 
+.auth-card {
   width: 100%;
   max-width: 360px;
-  background: white;
+  background: var(--color-card);
   padding: 40px 24px 32px;
   display: flex;
   flex-direction: column;
   border-radius: 32px;
-  box-shadow: 
-  0 15px 40px rgba(0, 0, 0, 0.1),
-  0 0 0 4px rgba(122, 130, 255, 0.2);
-
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.1),
+    0 0 0 4px rgba(122, 130, 255, 0.2);
 }
-.logo{
 
+.logo {
   margin: 0 0 40px;
   text-align: center;
   font-size: 2rem;
   font-weight: 800;
-  color: #5f6ff2;
-
+  color: var(--color-accent);
 }
-.auth-title{
-  
+
+.auth-title {
   margin: 0 0 24px;
   font-size: 1.3rem;
   font-weight: 700;
-  color: #111111;
-
+  color: var(--color-text);
 }
-.auth-subtitle{
 
+.auth-subtitle {
   margin: 0 0 24px;
   font-size: 0.95rem;
-  color: #555;
+  color: var(--color-text-secondary);
   line-height: 1.4;
-
 }
-.auth-form{
 
+.auth-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
-
 }
-.auth-input{
-  
+
+.auth-input {
   width: 100%;
-  padding: 14px 14px;
+  padding: 14px;
   border-radius: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--color-border);
   font-size: 1rem;
-  background: #fff;
-
+  color: var(--color-text);
+  background: var(--color-bg);
+  font-family: inherit;
 }
-.auth-input:focus{
 
+.auth-input:focus {
   outline: none;
-  border-color: #6d79ff;
-
+  border-color: var(--color-accent);
 }
-.terms{
 
+.terms {
   display: flex;
   align-items: flex-start;
   gap: 8px;
   font-size: 0.75rem;
-  margin: 8px 0 8px;
-
+  color: var(--color-text-secondary);
+  margin: 8px 0;
 }
-.primary-btn{
 
+.primary-btn {
   width: 100%;
   padding: 14px;
   border: none;
   border-radius: 12px;
-  background: linear-gradient(90deg, #7a82ff, #5d68df);
+  background: var(--color-accent);
   color: white;
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
-
+  font-family: inherit;
 }
-.forgot-row{
 
+.primary-btn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.primary-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.forgot-row {
   display: flex;
   justify-content: flex-end;
   margin-top: -6px;
   margin-bottom: 2px;
-
 }
-.forgot-link{
 
+.forgot-link {
   font-size: 0.8rem;
-  color: #5f6ff2;
-
+  color: var(--color-accent);
+  text-decoration: none;
 }
-.auth-footer{
 
+.auth-footer {
   text-align: center;
   font-size: 0.9rem;
   margin-top: 20px;
-  color: #444;
-
+  color: var(--color-text-secondary);
 }
-.link-text{
 
-  color: #5f6ff2;
+.link-text {
+  color: var(--color-accent);
   font-weight: 600;
   cursor: pointer;
-
 }
 
-@media (min-width: 480px){
-  .auth-card{
+@media (min-width: 480px) {
+  .auth-card {
     max-width: 390px;
     padding: 44px 28px 36px;
   }
 
-  .logo{
+  .logo {
     font-size: 2.2rem;
   }
 
-  .auth-title{
+  .auth-title {
     font-size: 1.4rem;
   }
 }
 
-@media (min-width: 768px){
-  .auth-container{
+@media (min-width: 768px) {
+  .auth-container {
     padding: 24px;
   }
 
-  .auth-card{
+  .auth-card {
     max-width: 420px;
     padding: 48px 32px 40px;
   }
 }
-/* End of styling for Signup/Login pages */
 
-/* Start of styling for Profile page */
+/* ─── Profile Page ─── */
 
-.profile-page{
-
+.profile-page {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #f5f5f7, #eef0ff);
+  background: var(--color-bg);
   padding: 16px;
-
 }
-.profile-card{
 
+.profile-card {
   width: 100%;
   max-width: 390px;
-  background: white;
+  background: var(--color-card);
   border-radius: 32px;
   overflow: hidden;
-  box-shadow:   0 15px 40px rgba(0, 0, 0, 0.1),
-  0 0 0 4px rgba(122, 130, 255, 0.2); 
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.1),
+    0 0 0 4px rgba(122, 130, 255, 0.2);
   display: flex;
   flex-direction: column;
-
 }
-.profile-cover{
 
+.profile-cover {
   height: 155px;
-  background: linear-gradient(180deg, #1c2344, #31406b);
-
+  background: var(--color-accent);
+  opacity: 0.85;
 }
-.profile-info{
 
+.profile-info {
   position: relative;
   text-align: center;
   padding: 60px 16px 24px;
-
 }
-.profile-avatar{
 
+.profile-avatar {
   width: 100px;
   height: 100px;
-  background: #111;
+  background: var(--color-border);
   border-radius: 50%;
-  border: 5px solid white;
+  border: 5px solid var(--color-card);
   position: absolute;
   top: -50px;
   left: 50%;
   transform: translateX(-50%);
-
 }
-.profile-username{
 
+.profile-username {
   margin: 0 0 6px;
   font-size: 1.2rem;
   font-weight: 700;
-  color: #111;
-
+  color: var(--color-text);
 }
-.profile-connection,.profile-bio{
 
+.profile-connection,
+.profile-bio {
   margin: 0;
   font-size: 0.95rem;
   font-weight: 600;
-  color: #222;
-
+  color: var(--color-text);
 }
-.connections-btn{
 
+.connections-btn {
   background: none;
   border: none;
   padding: 0;
   margin: 0;
   font-size: 0.95rem;
   font-weight: 600;
-  color: #4f5fe8;
+  color: var(--color-accent);
   cursor: pointer;
+  font-family: inherit;
 }
-.connections-btn:hover{
 
+.connections-btn:hover {
   text-decoration: underline;
 }
-.profile-bio{
 
+.profile-bio {
   margin-top: 6px;
-
+  color: var(--color-text-secondary);
 }
-.profile-posts{
 
+.profile-posts {
   margin: 0 16px 20px;
-  background: #dfe0fb;
+  background: var(--color-bg);
   border-radius: 24px;
   padding: 16px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
-
 }
-.profile-section{
 
+.profile-section {
   margin-bottom: 14px;
-
 }
-.profile-section h3{
 
+.profile-section h3 {
   margin: 0;
   font-size: 1rem;
   font-weight: 700;
   text-transform: lowercase;
-  color: #111;
-
+  color: var(--color-text);
 }
-.user-posts{
 
+.user-posts {
   min-height: 140px;
-  background: rgba(255, 255, 255, 0.75);
+  background: var(--color-card);
   border-radius: 16px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: #444;
+  color: var(--color-text-secondary);
   text-align: center;
   padding: 20px;
-
 }
-.user-posts p{
 
+.user-posts p {
   margin: 0 0 8px;
   font-size: 1rem;
   font-weight: 700;
-
+  color: var(--color-text);
 }
-.user-posts span{
 
+.user-posts span {
   font-size: 0.85rem;
   line-height: 1.4;
-
 }
-.navbar-temp{
 
+.navbar-temp {
   height: 72px;
-  background: linear-gradient(90deg, #5c63e6, #3f44b9);
+  background: var(--color-accent);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -298,8 +301,8 @@
   font-size: 0.95rem;
   font-weight: 600;
   margin-top: auto;
-
 }
+
 @media (min-width: 480px) {
   .profile-card {
     max-width: 400px;
@@ -309,7 +312,7 @@
     padding: 64px 20px 24px;
   }
 
-  .profile-posts-section {
+  .profile-posts {
     margin: 0 20px 20px;
   }
 }
