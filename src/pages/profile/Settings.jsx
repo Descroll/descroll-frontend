@@ -14,7 +14,6 @@ function Settings() {
     const [passwordStatus, setPasswordStatus] = useState(null);
     const [emailLoading, setEmailLoading]     = useState(false);
     const [passwordLoading, setPasswordLoading] = useState(false);
-    const { resetTheme } = useTheme();
 
     const handleEmailChange = async () => {
         if (!emailForm.email || !emailForm.password) {
@@ -70,7 +69,6 @@ function Settings() {
     };
 
     const handleLogout = () => {
-        resetTheme();
         logout();
         navigate('/login');
     };
