@@ -49,7 +49,7 @@ function PostDetail() {
     const handleToggleSave = async () => {
         try {
             const method = isSaved ? 'DELETE' : 'POST';
-            const res = await apiFetch(`/posts/${post_id}/save`, method);
+            const res = await apiFetch(`/posts/${post_id}/save`, {method});
             
             if (!res.ok) throw new Error("Failed to toggle save");
             setIsSaved(!isSaved);
