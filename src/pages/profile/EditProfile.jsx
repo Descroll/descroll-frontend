@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../components/auth/AuthContext';
 import BottomNav from '../../components/navigation/BottomNav';
 import { apiFetch } from '../../api';
+import '../../styles/EditProfile.css'; // adjust path as needed
 
 function EditProfile() {
     const navigate = useNavigate();
