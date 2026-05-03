@@ -109,7 +109,11 @@ function Profile() {
                     {isLoading ? (
                         <p>Loading posts...</p>
                     ) : (
-                        <UserGallery posts={activeTab === 'posts' ? posts : savedPosts} />
+                        <UserGallery
+                            posts={activeTab === 'posts' ? posts : savedPosts}
+                            username={profileData?.display_name}
+                            avatarUrl={profileData?.avatar_url}
+                        />
                     )}
                 </div>
                 

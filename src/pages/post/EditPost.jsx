@@ -96,7 +96,11 @@ function EditPost() {
                 <div className="create-post-body">
                     <div className="user-row">
                         {/*placeholder for the users photo*/}
-                        <div className="mini-avatar">{currentUser?.avatar_url || null}</div>
+                        <div className="mini-avatar">
+                            {currentUser?.avatar_url && (
+                                <img src={currentUser.avatar_url} alt="avatar" />
+                            )}
+                        </div>
                         <span className="post-username">{post.display_name || "you"}</span>
 
                     </div>
