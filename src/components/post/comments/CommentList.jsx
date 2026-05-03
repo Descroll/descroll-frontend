@@ -30,6 +30,10 @@ const Comment = ({ postId, comment, onReplyAdded }) => {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') handleReplySubmit();
+  };
+
   return (
     <div className="comment-container">
       <div className="comment-main">
@@ -37,7 +41,7 @@ const Comment = ({ postId, comment, onReplyAdded }) => {
         <p className="comment-text">{comment.content}</p>
       </div>
       
-      <button 
+      <button
         className="reply-toggle-btn"
         onClick={() => setShowReplyBox(!showReplyBox)}
       >
@@ -50,8 +54,10 @@ const Comment = ({ postId, comment, onReplyAdded }) => {
             type="text"
             value={replyText}
             onChange={(e) => setReplyText(e.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder="Add a reply..."
             className="reply-input"
+            autoFocus
           />
           <button 
             onClick={handleReplySubmit}

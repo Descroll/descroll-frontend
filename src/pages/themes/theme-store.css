@@ -1,8 +1,10 @@
+/* ─── Theme Store Page ─── */
+
 .theme-store-page {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  background: linear-gradient(135deg, #f5f5f7, #eef0ff);
+  background: var(--color-bg);
   padding: 16px;
   padding-bottom: 120px;
 }
@@ -11,11 +13,12 @@
   width: 100%;
   max-width: 390px;
   min-height: 760px;
-  background: white;
+  background: var(--color-card);
   border-radius: 32px;
   overflow: hidden;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1),
-              0 0 0 4px rgba(122, 130, 255, 0.2);
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.1),
+    0 0 0 4px rgba(122, 130, 255, 0.2);
   display: flex;
   flex-direction: column;
 }
@@ -23,13 +26,13 @@
 .theme-store-header {
   padding: 20px;
   text-align: center;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .theme-store-header h2 {
   margin: 0;
   font-size: 1.2rem;
-  color: #111;
+  color: var(--color-text);
 }
 
 .theme-store-body {
@@ -39,7 +42,8 @@
 }
 
 .theme-store-item {
-  background: #dfe0fb;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
   border-radius: 22px;
   padding: 14px;
   margin-bottom: 14px;
@@ -61,14 +65,21 @@
   font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.2s ease;
 }
 
 .theme-action-btn {
-  background: white;
-  color: #3f44b9;
+  background: var(--color-card);
+  color: var(--color-accent);
+}
+
+.theme-action-btn:hover,
+.theme-purchase-btn:hover {
+  opacity: 0.85;
 }
 
 .theme-purchase-btn {
-  background: linear-gradient(90deg, #5c63e6, #3f44b9);
+  background: var(--color-accent);
   color: white;
 }
