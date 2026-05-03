@@ -96,8 +96,15 @@ function PostDetail() {
                 <div className="post-detail-body">
                     <div className="user-row">
                         <div className="post-user-info">
-                            <div className="mini-avatar">{currentUser?.avatar_url || null}</div>
-                            <span className="post-username">{currentUser?.display_name || null}</span>
+                            <div className="mini-avatar">
+                                {post.avatar_url && (
+                                    <img src={post.avatar_url} alt="avatar" />
+                                )}
+                            </div>
+
+                            <span className="post-username">
+                                {post.display_name}
+                            </span>
                         </div>
                         
                         <div className="post-actions">
@@ -114,7 +121,7 @@ function PostDetail() {
                     {post.media_url && (
                         post.media_type === "video" ? (
                             <video className="post-detail-preview" controls>
-                                <source src={post.media_url} type={video/mp4} />
+                                <source src={post.media_url} type="video/mp4" />
                                 video type not supported
                             </video>
                         ) : (

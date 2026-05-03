@@ -5,7 +5,7 @@ import VideoPost from '../post/VideoPost';
 import './UserGalleryStyle.css';
 import "../../App.css";
 
-export default function UserGallery({ posts = [] }) {
+export default function UserGallery({ posts = [], username, avatarUrl }) {
     const navigate = useNavigate();
 
     if (posts.length === 0) {
@@ -22,7 +22,13 @@ export default function UserGallery({ posts = [] }) {
             key: post.id,
             post,
             mode: 'grid',
-            onClick: () => navigate(`/posts/${post.id}`, {state: post}),
+            onClick: () => navigate(`/posts/${post.id}`, {
+                state: {
+                    ...post,
+                    display_name: post.display_name || username,
+                    avatar_url: post.avatar_url || avatarUrl,
+                }
+            }),
         };
 
         switch (post.type) {
