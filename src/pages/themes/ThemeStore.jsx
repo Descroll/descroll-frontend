@@ -57,6 +57,7 @@ const ThemeStore = () => {
         throw new Error(err.error || "Failed to apply theme");
       }
       const result = await res.json();
+      console.log('ThemeStore.handleApply: API response =', result);
 
       applyTheme(result);
 
