@@ -4,9 +4,14 @@ import { apiFetch } from "../../api";
 const ThemeContext = createContext(null);
 
 function applyCssVars(cssVars){
-  if (!cssVars) return;
+  if (!cssVars) {
+    console.log('applyCssVars: cssVars is empty, skipping');
+    return;
+  }
+  console.log('applyCssVars: received cssVars =', cssVars);
   const root = document.documentElement;
   Object.entries(cssVars).forEach(([key, value]) => {
+    console.log(`  setting ${key} = ${value}`);
     root.style.setProperty(key, value);
   });
 }
@@ -30,9 +35,12 @@ export const ThemeProvider = ({ children }) => {
   }, []);
 
   const applyTheme = (theme) => {
+    console.log('ThemeContext.applyTheme: received theme =', theme);
     if (theme?.css_vars) {
       applyCssVars(theme.css_vars);
       setActiveTheme(theme);
+    } else {
+      console.log('ThemeContext.applyTheme: theme.css_vars is missing!');
     }
   };
 

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "./ConnectionsPage.css";
 import AcceptButton from "../../components/ui/AcceptButton";
 import RejectButton from "../../components/ui/RejectButton";
@@ -17,6 +18,33 @@ const ConnectionsPage = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
+
+  const getProfileId = (userLike) => {
+    return (
+      userLike?.id ??
+      userLike?.user_id ??
+      userLike?.requester_id ??
+      userLike?.receiver_id ??
+      userLike?.connected_id ??
+      userLike?.connected_user_id ??
+      userLike?.target_user_id ??
+      null
+    );
+  };
+
+  const renderProfileName = (name, userLike) => {
+    const profileId = getProfileId(userLike);
+
+    if (!profileId) {
+      return <span>{name}</span>;
+    }
+
+    return (
+      <Link className="display-name-link" to={`/users/${profileId}`}>
+        {name}
+      </Link>
+    );
+  };
 
   const fetchPending = async () => {
     try {
@@ -201,7 +229,7 @@ const ConnectionsPage = () => {
                   <div className="user-left">
                     <div className="search-avatar" />
                     <div className="user-text">
-                      <h3>{user.display_name}</h3>
+                      <h3>{renderProfileName(user.display_name, user)}</h3>
                       <p>{user.bio}</p>
                     </div>
                   </div>
@@ -255,7 +283,7 @@ const ConnectionsPage = () => {
                         <div className="user-info">
                           <div className="avatar"><img src={user.avatar_url} /></div>
                           <div>
-                            <div className="display_name">{user.requester_display_name}</div>
+                            <div className="display_name">{renderProfileName(user.requester_display_name, user)}</div>
                             <div className="bio">{user.requester_bio}</div>
                           </div>
                         </div>
@@ -289,7 +317,7 @@ const ConnectionsPage = () => {
                         <div className="user-info">
                           <div className="avatar"><img src={conn.avatar_url} /></div>
                           <div>
-                            <div className="display_name">{conn.connected_display_name}</div>
+                            <div className="display_name">{renderProfileName(conn.connected_display_name, conn)}</div>
                             <div className="bio">{conn.connected_bio}</div>
                           </div>
                         </div>
