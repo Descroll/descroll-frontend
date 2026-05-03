@@ -32,28 +32,31 @@ const Comment = ({ postId, comment, onReplyAdded }) => {
 
   return (
     <div className="comment-container">
-      <p><strong>{comment.author || 'User'}</strong>: {comment.content}</p>
+      <div className="comment-main">
+        <span className="comment-author">{comment.author || 'User'}</span>
+        <p className="comment-text">{comment.content}</p>
+      </div>
       
       <button 
-        className="textbox"
+        className="reply-toggle-btn"
         onClick={() => setShowReplyBox(!showReplyBox)}
       >
         {showReplyBox ? 'Cancel' : 'Reply'}
       </button>
 
       {showReplyBox && (
-        <div className="reply-box">
+        <div className="reply-input-box">
           <input
             type="text"
             value={replyText}
             onChange={(e) => setReplyText(e.target.value)}
             placeholder="Add a reply..."
-            className="reply"
+            className="reply-input"
           />
           <button 
             onClick={handleReplySubmit}
             disabled={!replyText.trim() || isSubmitting}
-            className="text-sm"
+            className="reply-submit-btn"
           >
             {isSubmitting ? 'posting...' : 'post'}
           </button>

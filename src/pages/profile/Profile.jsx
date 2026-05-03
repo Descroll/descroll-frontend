@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect} from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../../components/auth/AuthContext';
 import BottomNav from '../../components/navigation/BottomNav';
 import "../../styles/profile.css";
+import "../../App.css";
 import UserGallery from '../../components/post/UserGallery';
 import { apiFetch } from '../../api';
 
@@ -15,7 +16,8 @@ function Profile() {
     const [profileData, setProfileData] = useState(null);
     const [posts, setPosts] = useState([]);
     const [savedPosts, setSavedPosts] = useState([]);
-    const [activeTab, setActiveTab] = useState('posts');
+    const [activeTab, setActiveTab] = useState('posts');    const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
+
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -96,6 +98,10 @@ function Profile() {
                         view profile
                         </Link>
                     )}
+
+                    {targetId === 'me' && (
+                        <button className='remove-btn' onClick={() => setShowDeleteAccountModal(true)}>delete account</button>
+                    )}
                 </div>
                 
                 <div className="profile-posts">
@@ -109,9 +115,29 @@ function Profile() {
                     {isLoading ? (
                         <p>Loading posts...</p>
                     ) : (
-                        <UserGallery posts={activeTab === 'posts' ? posts : savedPosts} />
+                        <UserGallery
+                            posts={activeTab === 'posts' ? posts : savedPosts}
+                            username={profileData?.display_name}
+                            avatarUrl={profileData?.avatar_url}
+                        />
                     )}
                 </div>
+
+                {showDeleteAccountModal && (
+                    <div className='modal-overlay'>
+                        <div className='modal-card'>
+                            <h3>delete account</h3>
+                            <p>are you sure that you want to delete your account?</p>
+                            <p className='warning-text'>this action can NOT be undone.</p>
+
+                            <div className='modal-actions'>
+                                <button className='cancel-btn' onClick={() => setShowDeleteAccountModal(false)}>cancel</button>
+
+                                <button className='danger-btn' onClick={() => console.log("deleting account...")}>delete account</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
                 
                 <BottomNav />
             </div>

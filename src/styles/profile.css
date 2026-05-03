@@ -247,3 +247,22 @@
   z-index: 10;
   line-height: 1;
 }
+
+.edit-profile-avatar {
+
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: #111;
+  overflow: hidden;
+  margin: 0 auto;
+
+}
+
+.edit-profile-avatar img {
+
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  
+}

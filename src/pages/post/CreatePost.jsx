@@ -91,7 +91,11 @@ function CreatePost() {
                 <div className="create-post-body">
                     <div className="user-row">
                         <div className="user-row">
-                            <div className="mini-avatar">{currentUser?.avatar_url || null}</div>
+                            <div className="mini-avatar">
+                            {currentUser?.avatar_url && (
+                                <img src={currentUser.avatar_url} alt="avatar" />
+                            )}
+                            </div>
                             <span className="post-username">{currentUser?.display_name || "you"}</span>
                         </div>
                         {error && <p style={{ color: "red", fontSize: "0.9rem" }}>{error}</p>}

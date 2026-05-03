@@ -97,7 +97,7 @@ function EditProfile() {
             {/* Avatar */}
             <div className="avatar-upload-section">
                 <label className="avatar-upload-label">
-                <div className="profile-avatar edit-avatar">
+                <div className="edit-profile-avatar">
                     {avatarPreview
                     ? <img src={avatarPreview} alt="avatar preview" />
                     : <span>+</span>

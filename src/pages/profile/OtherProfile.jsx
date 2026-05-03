@@ -165,7 +165,11 @@ function UserProfile() {
                             <span>this user hasn't posted anything yet</span>
                         </div>
                     ) : (
-                        <UserGallery posts={posts} />
+                        <UserGallery
+                            posts={posts}
+                            username={profileData?.username}
+                            avatarUrl={profileData?.avatar_url}
+                        />
                     )}
                 </div>
 
