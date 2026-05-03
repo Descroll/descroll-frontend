@@ -2,7 +2,6 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import PostCard from "../../components/post/PostCard";
 import BottomNav from "../../components/navigation/BottomNav";
 import { apiFetch } from '../../api';
-import "../../styles/feed.css";
 
 const LIMIT = 10;
 
