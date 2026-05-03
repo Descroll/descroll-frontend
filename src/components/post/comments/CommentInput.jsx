@@ -32,7 +32,7 @@ export default function CommentInput({ postId, onCommentAdded }) {
   };
 
   return (
-    <div className="comments-box">
+    <div className="comment-input-box">
       <input
         id="comments-input"
         type="text"

@@ -1,6 +1,6 @@
 const ThemeCard = ({ theme, onPreview, onPurchase, onApply }) => {
     return (
-        <div className="card theme-card">
+        <div className="theme-store-item">
         <div>
             <div
             style={{
@@ -24,14 +24,14 @@ const ThemeCard = ({ theme, onPreview, onPurchase, onApply }) => {
             {theme.is_free && <small style={{ color: "#888" }}>Free</small>}
         </div>
 
-        <div style={{ display: "flex", gap: 8 }}>
-            <button className="button" onClick={() => onPreview(theme)}>
+        <div className="theme-card-actions">
+            <button className="theme-action-btn" onClick={() => onPreview(theme)}>
             Preview
             </button>
 
             {(theme.purchased || theme.is_free) ? (
             <button
-                className="button"
+                className="theme-action-btn"
                 onClick={onApply}
                 disabled={theme.active}
                 style={{ opacity: theme.active ? 0.5 : 1 }}
@@ -39,7 +39,7 @@ const ThemeCard = ({ theme, onPreview, onPurchase, onApply }) => {
                 {theme.active ? "Applied" : "Apply"}
             </button>
             ) : (
-            <button className="purchase-btn" onClick={onPurchase}>
+            <button className="theme-purchase-btn" onClick={onPurchase}>
                 ${Number(theme.price).toFixed(2)}
             </button>
             )}

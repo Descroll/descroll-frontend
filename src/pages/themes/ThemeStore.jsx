@@ -4,6 +4,7 @@ import ThemePreview from "./PreviewTheme";
 import { useTheme } from "../../components/ui/ThemeContext";
 import { apiFetch } from "../../api";
 import BottomNav from "../../components/navigation/BottomNav";
+import "./theme-store.css";
 
 const ThemeStore = () => {
   const [themes, setThemes] = useState([]);
@@ -74,9 +75,12 @@ const ThemeStore = () => {
   };
 
   return (
-    <div className="phone">
-      <div>
-        <div className="header">Themes</div>
+    <div className="theme-store-page">
+      <div className="theme-store-card">
+        <div className="theme-store-header">
+          <h2>Themes</h2>
+        </div>
+        <div className="theme-store-body"> 
 
         {error && <p style={{color:"red", padding: "10px"}}>{error}</p>}
 
@@ -98,7 +102,7 @@ const ThemeStore = () => {
           View More...
         </button>*/}
       </div>
-
+    </div>
       <BottomNav />
 
       <ThemePreview
