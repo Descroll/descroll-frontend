@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../components/auth/AuthContext';
 import { apiFetch } from '../../api';
 import BottomNav from '../../components/navigation/BottomNav';
+import { useTheme } from '../../components/ui/ThemeContext';
 
 function Settings() {
     const { logout } = useAuth();
